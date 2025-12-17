@@ -1,0 +1,75 @@
+############################
+# General
+############################
+.DS_Store
+*.log
+*.tmp
+*.bak
+*.swp
+*.iml
+.idea/
+.vscode/
+
+############################
+# Gradle / Kotlin
+############################
+.gradle/
+build/
+**/build/
+!src/**/build/
+
+.kotlin/
+local.properties
+
+############################
+# Android
+############################
+*.apk
+*.aab
+captures/
+.externalNativeBuild/
+.cxx/
+
+############################
+# IntelliJ / Android Studio
+############################
+out/
+.idea/caches/
+.idea/libraries/
+.idea/modules.xml
+.idea/workspace.xml
+.idea/navEditor.xml
+.idea/assetWizardSettings.xml
+
+############################
+# iOS / Xcode
+############################
+DerivedData/
+*.xcuserdata/
+*.xcuserstate
+*.xcodeproj/*
+!*.xcodeproj/project.pbxproj
+!*.xcodeproj/xcshareddata/
+!*.xcodeproj/project.xcworkspace/
+!*.xcworkspace/contents.xcworkspacedata
+**/xcshareddata/WorkspaceSettings.xcsettings
+
+############################
+# Node / JS (if used)
+############################
+node_modules/
+npm-debug.log*
+yarn-error.log*
+
+############################
+# Secrets (NEVER COMMIT)
+############################
+.env
+.env.*
+google-services.json
+GoogleService-Info.plist
+
+############################
+# OS
+############################
+Thumbs.db
