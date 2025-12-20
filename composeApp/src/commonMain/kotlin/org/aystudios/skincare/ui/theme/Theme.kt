@@ -26,6 +26,7 @@ import androidx.compose.ui.unit.dp
 import org.aystudios.skincare.getAppNavigator
 import org.jetbrains.compose.resources.painterResource
 import skincare.composeapp.generated.resources.Res
+import skincare.composeapp.generated.resources.back
 
 @Composable
 fun CircularBackButton() {
