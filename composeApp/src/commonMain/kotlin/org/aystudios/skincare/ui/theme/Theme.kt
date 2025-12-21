@@ -20,16 +20,19 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import org.aystudios.skincare.getAppNavigator
+import org.jetbrains.compose.resources.DrawableResource
+import org.jetbrains.compose.resources.Resource
 import org.jetbrains.compose.resources.painterResource
 import skincare.composeapp.generated.resources.Res
 import skincare.composeapp.generated.resources.back
 
 @Composable
-fun CircularBackButton() {
+fun CircularBackButton(painter: DrawableResource = Res.drawable.back) {
 
     val navigator = getAppNavigator()
 
@@ -43,7 +46,7 @@ fun CircularBackButton() {
     ) {
 
         Icon(
-            painter = painterResource(Res.drawable.back),
+            painter = painterResource(painter),
             contentDescription = null,
             tint = AppOnBackgroundColor,
         )
@@ -55,7 +58,7 @@ fun AppTopBar(title: String) {
 
     Row(modifier = Modifier
         .fillMaxWidth()
-        .padding(bottom = 8.dp)) {
+        .padding(8.dp)) {
 
         CircularBackButton()
 

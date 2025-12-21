@@ -24,7 +24,7 @@ object HomeTab : Tab {
 
     @Composable
     override fun Content() {
-        Navigator(HomeScreenNavigator)
+//        Navigator(HomeScreenNavigator)
     }
 
 }
@@ -40,7 +40,7 @@ object FavouriteTab : Tab {
 
     @Composable
     override fun Content() {
-        Navigator(FavouriteScreenNavigator)
+//        Navigator(FavouriteScreenNavigator)
     }
 
 }
@@ -57,7 +57,7 @@ object CartTab : Tab {
 
     @Composable
     override fun Content() {
-        Navigator(CartScreenNavigator)
+//        Navigator(CartScreenNavigator)
     }
 
 }
@@ -74,7 +74,7 @@ object ProfileTab : Tab {
 
     @Composable
     override fun Content() {
-        Navigator(FavouriteScreenNavigator)
+//        Navigator(FavouriteScreenNavigator)
     }
 
 }
