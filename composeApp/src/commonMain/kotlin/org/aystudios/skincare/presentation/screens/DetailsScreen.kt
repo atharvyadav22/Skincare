@@ -26,7 +26,6 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.screen.Screen
 import org.aystudios.skincare.presentation.components.AppButtonComponent
-import org.aystudios.skincare.ui.theme.AppBackgroundColor
 import org.aystudios.skincare.ui.theme.AppPrimaryColor
 import org.aystudios.skincare.ui.theme.AppScaffold
 import org.aystudios.skincare.ui.theme.CircularBackButton
