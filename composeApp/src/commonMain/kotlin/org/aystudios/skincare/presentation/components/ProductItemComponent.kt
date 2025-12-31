@@ -49,7 +49,7 @@ fun ProductItemComponent() {
                         contentScale = ContentScale.Crop,
                         contentDescription = null,
                         modifier = Modifier.aspectRatio(1f).fillMaxWidth()
-                            .clip(RoundedCornerShape(6.dp))
+                            .clip(RoundedCornerShape(4.dp))
                     )
 
                     //Toggle Logic
@@ -65,7 +65,7 @@ fun ProductItemComponent() {
 
                 Column(modifier = Modifier.padding(start = 4.dp)) {
                     Text(
-                        "Sunsscreen SPA 50+++",
+                        "Sunscreen SPA 50+++",
                         modifier = Modifier.width(130.dp),
                         style = MaterialTheme.typography.titleMedium,
                         maxLines = 2

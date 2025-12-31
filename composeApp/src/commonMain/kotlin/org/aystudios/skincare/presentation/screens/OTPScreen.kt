@@ -2,7 +2,9 @@ package org.aystudios.skincare.presentation.screens
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -22,6 +24,7 @@ import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.screen.Screen
 import org.aystudios.skincare.getAppNavigator
 import org.aystudios.skincare.presentation.components.OtpTextField
+import org.aystudios.skincare.presentation.components.bottom_tabs.AppBottomNavigator
 import org.aystudios.skincare.ui.theme.AppPrimaryColor
 import org.aystudios.skincare.ui.theme.AppScaffold
 import org.jetbrains.compose.ui.tooling.preview.Preview
@@ -82,9 +85,9 @@ fun OTPScreen() {
             }
 
             val navigator = getAppNavigator()
-//            Button(modifier = Modifier.fillMaxWidth(), onClick = {navigator.push(AppBottomNavigator)}) {
-//                Text("Verify")
-//            }
+            Button(modifier = Modifier.fillMaxWidth(), onClick = {navigator.push(AppBottomNavigator)}) {
+                Text("Verify")
+            }
             
             Text(resendText, style = MaterialTheme.typography.labelLarge, modifier = Modifier.align(
                 Alignment.CenterHorizontally))

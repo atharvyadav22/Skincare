@@ -8,7 +8,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import cafe.adriel.voyager.navigator.Navigator
 import cafe.adriel.voyager.transitions.SlideTransition
-import org.aystudios.skincare.presentation.screens.DetailsScreenNavigator
 import org.aystudios.skincare.presentation.screens.LoginSignUpScreenNavigator
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
@@ -18,7 +17,7 @@ fun App() {
     Scaffold {
         Box(modifier = Modifier.fillMaxSize().padding(it)){
 
-            Navigator(DetailsScreenNavigator){
+            Navigator(LoginSignUpScreenNavigator){
                 SlideTransition(it)
             }
         }
