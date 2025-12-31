@@ -1,4 +1,4 @@
-package org.aystudios.skincare
+package org.aystudios.skincare.presentation.components
 
 import androidx.compose.runtime.Composable
 import cafe.adriel.voyager.navigator.LocalNavigator

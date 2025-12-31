@@ -1,4 +1,4 @@
-package org.aystudios.skincare.presentation.components
+package org.aystudios.skincare.presentation.screens.auth.component
 
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.RepeatMode

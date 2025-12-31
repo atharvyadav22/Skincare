@@ -1,4 +1,4 @@
-package org.aystudios.skincare.presentation.components
+package org.aystudios.skincare.presentation.screens.cart.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable

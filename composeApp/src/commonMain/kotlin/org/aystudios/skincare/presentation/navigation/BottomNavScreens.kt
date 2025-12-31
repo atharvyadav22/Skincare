@@ -1,4 +1,4 @@
-package org.aystudios.skincare.presentation.components.bottom_tabs
+package org.aystudios.skincare.presentation.navigation
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateColorAsState
@@ -15,7 +15,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
@@ -75,12 +74,11 @@ fun AppCustomBottomBar(
 
     Row(
         modifier = modifier
-            .wrapContentSize()
             .clip(RoundedCornerShape(24.dp))
             .background(AppSurfaceColor)
             .padding(horizontal = 12.dp, vertical = 8.dp),
         horizontalArrangement = Arrangement.spacedBy(
-            12.dp,
+            8.dp,
             Alignment.CenterHorizontally
         ),
         verticalAlignment = Alignment.CenterVertically
@@ -133,7 +131,7 @@ fun CustomTabItem(
 
         AnimatedVisibility(
             visible = selected,
-            enter = expandHorizontally(),
+            enter = expandHorizontally(expandFrom = Alignment.CenterHorizontally),
         ) {
             Text(
                 text = tab.options.title,

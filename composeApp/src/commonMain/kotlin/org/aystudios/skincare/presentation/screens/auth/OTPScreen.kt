@@ -1,4 +1,4 @@
-package org.aystudios.skincare.presentation.screens
+package org.aystudios.skincare.presentation.screens.auth
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -22,9 +22,9 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.screen.Screen
-import org.aystudios.skincare.getAppNavigator
-import org.aystudios.skincare.presentation.components.OtpTextField
-import org.aystudios.skincare.presentation.components.bottom_tabs.AppBottomNavigator
+import org.aystudios.skincare.presentation.components.getAppNavigator
+import org.aystudios.skincare.presentation.screens.auth.component.OtpTextField
+import org.aystudios.skincare.presentation.navigation.AppBottomNavigator
 import org.aystudios.skincare.ui.theme.AppPrimaryColor
 import org.aystudios.skincare.ui.theme.AppScaffold
 import org.jetbrains.compose.ui.tooling.preview.Preview

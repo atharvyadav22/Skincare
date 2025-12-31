@@ -1,4 +1,4 @@
-package org.aystudios.skincare.presentation.screens.bottom_tabs_screens
+package org.aystudios.skincare.presentation.screens.cart
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -29,7 +29,7 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.screen.Screen
 import org.aystudios.skincare.presentation.components.AppButtonComponent
-import org.aystudios.skincare.presentation.components.cartItemButtonComponent
+import org.aystudios.skincare.presentation.screens.cart.component.cartItemButtonComponent
 import org.aystudios.skincare.ui.theme.AppPrimaryColor
 import org.aystudios.skincare.ui.theme.AppScaffold
 import org.jetbrains.compose.resources.painterResource

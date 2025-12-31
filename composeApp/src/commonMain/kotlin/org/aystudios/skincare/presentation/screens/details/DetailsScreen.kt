@@ -1,4 +1,4 @@
-package org.aystudios.skincare.presentation.screens
+package org.aystudios.skincare.presentation.screens.details
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement

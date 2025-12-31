@@ -1,13 +1,13 @@
-package org.aystudios.skincare.presentation.components.bottom_tabs
+package org.aystudios.skincare.presentation.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import cafe.adriel.voyager.navigator.Navigator
 import cafe.adriel.voyager.navigator.tab.Tab
 import cafe.adriel.voyager.navigator.tab.TabOptions
-import org.aystudios.skincare.presentation.screens.bottom_tabs_screens.CartScreenNavigator
-import org.aystudios.skincare.presentation.screens.bottom_tabs_screens.FavouriteScreenNavigator
-import org.aystudios.skincare.presentation.screens.bottom_tabs_screens.HomeScreenNavigator
+import org.aystudios.skincare.presentation.screens.cart.CartScreenNavigator
+import org.aystudios.skincare.presentation.screens.favourite.FavouriteScreenNavigator
+import org.aystudios.skincare.presentation.screens.home.HomeScreenNavigator
 import org.jetbrains.compose.resources.painterResource
 import skincare.composeapp.generated.resources.Res
 import skincare.composeapp.generated.resources.cart

@@ -1,4 +1,4 @@
-package org.aystudios.skincare.presentation.screens.bottom_tabs_screens
+package org.aystudios.skincare.presentation.screens.favourite
 
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height

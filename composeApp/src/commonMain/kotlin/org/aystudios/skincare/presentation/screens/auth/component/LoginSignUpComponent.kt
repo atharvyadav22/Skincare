@@ -1,4 +1,4 @@
-package org.aystudios.skincare.presentation.components
+package org.aystudios.skincare.presentation.screens.auth.component
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -33,8 +33,8 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import org.aystudios.skincare.getAppNavigator
-import org.aystudios.skincare.presentation.screens.OTPScreenNavigator
+import org.aystudios.skincare.presentation.components.getAppNavigator
+import org.aystudios.skincare.presentation.screens.auth.OTPScreenNavigator
 import org.jetbrains.compose.resources.painterResource
 import skincare.composeapp.generated.resources.Res
 import skincare.composeapp.generated.resources.visibility_off

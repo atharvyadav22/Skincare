@@ -1,4 +1,4 @@
-package org.aystudios.skincare.presentation.screens
+package org.aystudios.skincare.presentation.screens.auth
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -6,7 +6,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import cafe.adriel.voyager.core.screen.Screen
-import org.aystudios.skincare.presentation.components.LoginSignUpScreenComponent
+import org.aystudios.skincare.presentation.screens.auth.component.LoginSignUpScreenComponent
 import org.aystudios.skincare.ui.theme.AppScaffold
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
