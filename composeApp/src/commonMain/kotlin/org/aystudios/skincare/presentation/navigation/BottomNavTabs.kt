@@ -6,12 +6,10 @@ import cafe.adriel.voyager.navigator.Navigator
 import cafe.adriel.voyager.navigator.tab.Tab
 import cafe.adriel.voyager.navigator.tab.TabOptions
 import org.aystudios.skincare.presentation.screens.cart.CartScreenNavigator
-import org.aystudios.skincare.presentation.screens.favourite.FavouriteScreenNavigator
 import org.aystudios.skincare.presentation.screens.home.HomeScreenNavigator
 import org.jetbrains.compose.resources.painterResource
 import skincare.composeapp.generated.resources.Res
 import skincare.composeapp.generated.resources.cart
-import skincare.composeapp.generated.resources.favourite
 import skincare.composeapp.generated.resources.home
 import skincare.composeapp.generated.resources.profile
 
@@ -31,22 +29,6 @@ object HomeTab : Tab {
     }
 
 }
-object FavouriteTab : Tab {
-    override val options: TabOptions
-        @Composable get() {
-            val icon = painterResource(Res.drawable.favourite)
-
-            return remember {
-                TabOptions(1u, "Favourite", icon)
-            }
-        }
-
-    @Composable
-    override fun Content() {
-        Navigator(FavouriteScreenNavigator)
-    }
-
-}
 
 object CartTab : Tab {
     override val options: TabOptions
@@ -54,7 +36,7 @@ object CartTab : Tab {
             val icon = painterResource(Res.drawable.cart)
 
             return remember {
-                TabOptions(2u, "Cart", icon)
+                TabOptions(1u, "Cart", icon)
             }
         }
 
@@ -71,7 +53,7 @@ object ProfileTab : Tab {
             val icon = painterResource(Res.drawable.profile)
 
             return remember {
-                TabOptions(3u, "Profile", icon)
+                TabOptions(2u, "Profile", icon)
             }
         }
 

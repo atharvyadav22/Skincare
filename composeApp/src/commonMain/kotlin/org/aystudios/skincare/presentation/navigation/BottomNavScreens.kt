@@ -3,7 +3,6 @@ package org.aystudios.skincare.presentation.navigation
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.tween
-import androidx.compose.animation.expandHorizontally
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -60,6 +59,7 @@ fun AppBottomNavigation() {
             AppCustomBottomBar(
                 modifier = Modifier
                     .align(Alignment.BottomCenter)
+                    .padding(bottom = 4.dp)
             )
         }
     }
@@ -70,7 +70,7 @@ fun AppCustomBottomBar(
     modifier: Modifier = Modifier
 ) {
     val tabNavigator = LocalTabNavigator.current
-    val tabs = listOf(HomeTab, CartTab, FavouriteTab, ProfileTab)
+    val tabs = listOf(HomeTab, CartTab, ProfileTab)
 
     Row(
         modifier = modifier
@@ -78,7 +78,7 @@ fun AppCustomBottomBar(
             .background(AppSurfaceColor)
             .padding(horizontal = 12.dp, vertical = 8.dp),
         horizontalArrangement = Arrangement.spacedBy(
-            8.dp,
+            12.dp,
             Alignment.CenterHorizontally
         ),
         verticalAlignment = Alignment.CenterVertically
@@ -123,7 +123,7 @@ fun CustomTabItem(
                 painter = it,
                 contentDescription = tab.options.title,
                 tint = contentColor,
-                modifier = Modifier.size(24.dp)
+                modifier = Modifier.size(28.dp)
             )
         }
 
@@ -131,7 +131,6 @@ fun CustomTabItem(
 
         AnimatedVisibility(
             visible = selected,
-            enter = expandHorizontally(expandFrom = Alignment.CenterHorizontally),
         ) {
             Text(
                 text = tab.options.title,
