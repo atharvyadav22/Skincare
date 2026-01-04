@@ -19,6 +19,10 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -29,7 +33,7 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.screen.Screen
 import org.aystudios.skincare.presentation.components.AppButtonComponent
-import org.aystudios.skincare.presentation.screens.cart.component.cartItemButtonComponent
+import org.aystudios.skincare.presentation.components.QtyChipButtonComponent
 import org.aystudios.skincare.ui.theme.AppPrimaryColor
 import org.aystudios.skincare.ui.theme.AppScaffold
 import org.jetbrains.compose.resources.painterResource
@@ -145,7 +149,13 @@ private fun CartList() {
                         Text("₹599", style = MaterialTheme.typography.titleMedium)
                     }
 
-                    val count = cartItemButtonComponent()
+                    var qty by remember { mutableIntStateOf(0) }
+
+                    QtyChipButtonComponent(
+                        count = qty,
+                        onCountChange = { qty = it },
+                        modifier = Modifier.padding(8.dp)
+                    )
                 }
             }
         }
