@@ -8,9 +8,11 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -32,6 +34,7 @@ import cafe.adriel.voyager.navigator.tab.CurrentTab
 import cafe.adriel.voyager.navigator.tab.LocalTabNavigator
 import cafe.adriel.voyager.navigator.tab.Tab
 import cafe.adriel.voyager.navigator.tab.TabNavigator
+import org.aystudios.skincare.presentation.screens.home.HomeScreen
 import org.aystudios.skincare.ui.theme.AppPrimaryColor
 import org.aystudios.skincare.ui.theme.AppSurfaceColor
 import org.jetbrains.compose.ui.tooling.preview.Preview
@@ -45,10 +48,21 @@ object AppBottomNavigator : Screen {
 
 }
 
+class MainTabsScreenNavigator(
+    private val startTab: Tab = HomeTab
+) : Screen {
+
+    @Composable
+    override fun Content() {
+        AppBottomNavigation(tab = startTab)
+    }
+}
+
+
 @Preview
 @Composable
-fun AppBottomNavigation() {
-    TabNavigator(HomeTab) {
+fun AppBottomNavigation(tab: Tab = HomeTab) {
+    TabNavigator(tab) {
         Box(
             modifier = Modifier
                 .fillMaxSize()
@@ -113,7 +127,9 @@ fun CustomTabItem(
         modifier = Modifier
             .clip(CircleShape)
             .background(backgroundColor)
-            .clickable(indication = null,interactionSource = remember { MutableInteractionSource() }) { onClick() }
+            .clickable(
+                indication = null,
+                interactionSource = remember { MutableInteractionSource() }) { onClick() }
             .padding(horizontal = 12.dp, vertical = 8.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Center

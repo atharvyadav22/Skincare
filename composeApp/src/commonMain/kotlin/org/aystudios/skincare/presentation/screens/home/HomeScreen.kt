@@ -20,7 +20,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.screen.Screen
 import org.aystudios.skincare.presentation.screens.home.component.CategoriesComponent
-import org.aystudios.skincare.presentation.screens.home.component.HomeScreenTopBarComponent
+import org.aystudios.skincare.presentation.components.BottomTabsTobBarComponent
 import org.aystudios.skincare.presentation.screens.home.component.HorizontalCarouselComponent
 import org.aystudios.skincare.presentation.screens.home.component.ProductCategoryComponent
 import org.aystudios.skincare.presentation.screens.home.component.SearchBarComponent
@@ -51,7 +51,7 @@ fun HomeScreen() {
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
 
-            HomeScreenTopBarComponent()
+            BottomTabsTobBarComponent()
 
             SearchBarComponent(searchText) { searchText = it }
 

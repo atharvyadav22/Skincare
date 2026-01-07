@@ -4,9 +4,12 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.HorizontalDivider
@@ -46,8 +49,9 @@ fun LoginSignUpScreenComponent(isLoginScreen: Boolean, onClick: () -> Unit) {
 
     Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
 
+
         Text(
-            "Sign in to your Account",
+            if (isLoginScreen) "Welcome Back Login" else "Sign in to your Account",
             style = MaterialTheme.typography.displaySmall.copy(fontWeight = FontWeight.SemiBold)
         )
         Text(
@@ -55,6 +59,7 @@ fun LoginSignUpScreenComponent(isLoginScreen: Boolean, onClick: () -> Unit) {
             style = MaterialTheme.typography.labelLarge.copy(color = Color.Gray)
         )
 
+        Spacer(Modifier.height(4.dp))
         InputTextComponent("Email", "example@gmail.com", keyboardType = KeyboardType.Email)
         InputTextComponent(
             "Password",
@@ -118,11 +123,11 @@ fun InputTextComponent(
         OutlinedTextField(
             value = text,
             onValueChange = { text = it },
-            shape = CircleShape,
+            shape = RoundedCornerShape(16.dp),
             modifier = Modifier.fillMaxWidth(),
             label = { Text(label) },
             singleLine = true,
-            textStyle = TextStyle(fontSize = 14.sp),
+            textStyle = MaterialTheme.typography.bodyMedium,
             keyboardOptions = KeyboardOptions(
                 keyboardType = keyboardType,
                 imeAction = ImeAction.Done

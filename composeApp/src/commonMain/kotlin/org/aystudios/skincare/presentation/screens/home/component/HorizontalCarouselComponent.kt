@@ -31,15 +31,12 @@ fun HorizontalCarouselComponent() {
 
     val pageCount = 4
     val pagerState = rememberPagerState(pageCount = { pageCount })
-    val coroutineScope = rememberCoroutineScope()
 
     LaunchedEffect(Unit) {
         while (true) {
             delay(3000)
             val nextPage = (pagerState.currentPage + 1) % pageCount
-            coroutineScope.launch {
-                pagerState.animateScrollToPage(nextPage)
-            }
+            pagerState.animateScrollToPage(nextPage)
         }
     }
 
@@ -50,7 +47,7 @@ fun HorizontalCarouselComponent() {
             Image(
                 painter = painterResource(Res.drawable.pager),
                 contentDescription = null,
-                modifier = Modifier.aspectRatio(16 / 9f)
+                modifier = Modifier.fillMaxWidth().aspectRatio(16 / 9f)
             )
 
             Row(

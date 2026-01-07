@@ -30,16 +30,14 @@ import skincare.composeapp.generated.resources.Res
 import skincare.composeapp.generated.resources.back
 
 @Composable
-fun CircularBackButton(painter: DrawableResource = Res.drawable.back) {
-
-    val navigator = getAppNavigator()
+fun CircularButtonComponent(painter: DrawableResource = Res.drawable.back, onClick: () -> Unit = {}) {
 
     Box(
         modifier = Modifier
             .size(38.dp)
             .clip(CircleShape)
             .background(AppSurfaceColor)
-            .clickable { navigator.pop() },
+            .clickable { onClick() },
         contentAlignment = Alignment.Center
     ) {
 
@@ -58,7 +56,7 @@ fun AppTopBar(title: String) {
         .fillMaxWidth()
         .padding(8.dp)) {
 
-        CircularBackButton()
+        CircularButtonComponent()
 
 
         Text(

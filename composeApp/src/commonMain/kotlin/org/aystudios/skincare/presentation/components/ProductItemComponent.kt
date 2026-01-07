@@ -2,6 +2,7 @@ package org.aystudios.skincare.presentation.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -27,73 +28,81 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
+import org.aystudios.skincare.presentation.screens.details.DetailsScreenNavigator
 import org.aystudios.skincare.ui.theme.AppPrimaryColor
 import org.aystudios.skincare.ui.theme.AppSurfaceColor
 import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.ui.tooling.preview.Preview
 import skincare.composeapp.generated.resources.Res
 import skincare.composeapp.generated.resources.dummy
 
+@Preview
 @Composable
 fun ProductItemComponent() {
 
-        Card(modifier = Modifier.padding(end = 8.dp, bottom = 8.dp).width(IntrinsicSize.Min)) {
+    val navigator = getAppRootNavigator()
 
-            Column(
-                verticalArrangement = Arrangement.spacedBy(4.dp),
-                modifier = Modifier.background(AppSurfaceColor).padding(4.dp)
-            ) {
+    Card(modifier = Modifier.padding(end = 8.dp, bottom = 8.dp).width(IntrinsicSize.Min)) {
 
-                Box {
-                    Image(
-                        painter = painterResource(Res.drawable.dummy),
-                        contentScale = ContentScale.Crop,
-                        contentDescription = null,
-                        modifier = Modifier.aspectRatio(1f).fillMaxWidth()
-                            .clip(RoundedCornerShape(4.dp))
-                    )
 
-                    //Toggle Logic
-                    var isFavourite by remember {
-                        mutableStateOf(true)
-                    }
-                    FavouriteItemToggleComponent(
-                        modifier = Modifier.align(Alignment.TopEnd).padding(8.dp),
-                        isFavourite = isFavourite
-                    ) { isFavourite = !isFavourite }
+        Column(
+            verticalArrangement = Arrangement.spacedBy(4.dp),
+            modifier = Modifier.background(AppSurfaceColor).padding(4.dp).clickable {
+                navigator?.push(DetailsScreenNavigator(48.dp))
+            }
+        ) {
 
+            Box {
+                Image(
+                    painter = painterResource(Res.drawable.dummy),
+                    contentScale = ContentScale.Crop,
+                    contentDescription = null,
+                    modifier = Modifier.aspectRatio(1f).fillMaxWidth()
+                        .clip(RoundedCornerShape(4.dp))
+                )
+
+                //Toggle Logic
+                var isFavourite by remember {
+                    mutableStateOf(true)
                 }
+                FavouriteItemToggleComponent(
+                    modifier = Modifier.align(Alignment.TopEnd).padding(8.dp),
+                    isFavourite = isFavourite
+                ) { isFavourite = !isFavourite }
 
-                Column(modifier = Modifier.padding(start = 4.dp)) {
-                    Text(
-                        "Sunscreen SPA 50+++",
-                        modifier = Modifier.width(130.dp),
-                        style = MaterialTheme.typography.titleMedium,
-                        maxLines = 2
-                    )
+            }
+
+            Column(modifier = Modifier.padding(start = 4.dp)) {
+                Text(
+                    "Sunscreen SPA 50+++",
+                    modifier = Modifier.width(130.dp),
+                    style = MaterialTheme.typography.titleMedium,
+                    maxLines = 2
+                )
+                Row(
+                    modifier = Modifier,
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
                     Row(
-                        modifier = Modifier,
-                        horizontalArrangement = Arrangement.SpaceBetween,
-                        verticalAlignment = Alignment.CenterVertically
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(8.dp)
                     ) {
-                        Row(
-                            verticalAlignment = Alignment.CenterVertically,
-                            horizontalArrangement = Arrangement.spacedBy(8.dp)
-                        ) {
-                            Text(
-                                "₹799",
-                                style = MaterialTheme.typography.bodySmall.copy(
-                                    textDecoration = TextDecoration.LineThrough,
-                                    fontWeight = FontWeight.SemiBold
-                                ),
-                                color = AppPrimaryColor
-                            )
-                            Text("₹599", style = MaterialTheme.typography.titleMedium)
-                        }
-
-
+                        Text(
+                            "₹799",
+                            style = MaterialTheme.typography.bodySmall.copy(
+                                textDecoration = TextDecoration.LineThrough,
+                                fontWeight = FontWeight.SemiBold
+                            ),
+                            color = AppPrimaryColor
+                        )
+                        Text("₹599", style = MaterialTheme.typography.titleMedium)
                     }
 
+
                 }
+
             }
         }
     }
+}
