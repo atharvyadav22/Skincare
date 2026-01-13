@@ -1,5 +1,7 @@
+import com.codingfeline.buildkonfig.compiler.FieldSpec
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import java.util.Properties
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
@@ -9,15 +11,16 @@ plugins {
     alias(libs.plugins.composeHotReload)
 
     alias(libs.plugins.kotlinxSerialization)
+    alias(libs.plugins.buildkonfig)
 }
 
 kotlin {
     androidTarget {
         compilerOptions {
-            jvmTarget.set(JvmTarget.JVM_11)
+            jvmTarget.set(JvmTarget.JVM_17)
         }
     }
-    
+
     listOf(
         iosArm64(),
         iosSimulatorArm64()
@@ -27,9 +30,9 @@ kotlin {
             isStatic = true
         }
     }
-    
+
     jvm()
-    
+
     sourceSets {
         androidMain.dependencies {
             implementation(compose.preview)
@@ -54,9 +57,8 @@ kotlin {
             implementation(libs.ktor.serialization.kotlinx.json)
             implementation(libs.ktor.client.logging)
             implementation(libs.ktor.client.content.negotiation)
-            implementation("androidx.datastore:datastore:1.2.0")
-            // The Preferences DataStore library
-            implementation("androidx.datastore:datastore-preferences:1.2.0")
+            implementation("com.russhwolf:multiplatform-settings:1.3.0")
+
 
         }
         iosMain.dependencies {
@@ -96,8 +98,8 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
 }
 
@@ -115,4 +117,17 @@ compose.desktop {
             packageVersion = "1.0.0"
         }
     }
+}
+
+val props = Properties()
+props.load(rootProject.file("local.properties").inputStream())
+
+buildkonfig {
+    packageName = "org.aystudios.skincare.config"
+
+
+    defaultConfigs {
+        buildConfigField(FieldSpec.Type.STRING, "API_KEY", props.getProperty("API_KEY"))
+    }
+
 }

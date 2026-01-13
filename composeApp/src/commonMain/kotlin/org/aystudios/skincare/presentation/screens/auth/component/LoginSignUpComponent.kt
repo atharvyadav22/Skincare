@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
@@ -18,14 +17,16 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
@@ -35,9 +36,10 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
+import org.aystudios.skincare.core.network.ApiResult
 import org.aystudios.skincare.presentation.components.getAppNavigator
-import org.aystudios.skincare.presentation.screens.auth.OTPScreenNavigator
+import org.aystudios.skincare.presentation.navigation.AppBottomNavigator
+import org.aystudios.skincare.presentation.viewmodels.LoginViewModel
 import org.jetbrains.compose.resources.painterResource
 import skincare.composeapp.generated.resources.Res
 import skincare.composeapp.generated.resources.visibility_off
@@ -45,10 +47,24 @@ import skincare.composeapp.generated.resources.visibility_on
 
 
 @Composable
-fun LoginSignUpScreenComponent(isLoginScreen: Boolean, onClick: () -> Unit) {
+fun LoginSignUpScreenComponent(
+    loginViewModel: LoginViewModel,
+    isLoginScreen: Boolean,
+    onClick: () -> Unit
+) {
 
     Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
 
+        var email by rememberSaveable { mutableStateOf("") }
+        var password by rememberSaveable { mutableStateOf("") }
+        val state by loginViewModel.loginState.collectAsState()
+        val navigator = getAppNavigator()
+
+        LaunchedEffect(state) {
+            if (state is ApiResult.Success) {
+                navigator.replaceAll(AppBottomNavigator)
+            }
+        }
 
         Text(
             if (isLoginScreen) "Welcome Back Login" else "Sign in to your Account",
@@ -60,16 +76,26 @@ fun LoginSignUpScreenComponent(isLoginScreen: Boolean, onClick: () -> Unit) {
         )
 
         Spacer(Modifier.height(4.dp))
-        InputTextComponent("Email", "example@gmail.com", keyboardType = KeyboardType.Email)
+        InputTextComponent(
+            "Email",
+            "example@gmail.com",
+            text = email,
+            keyboardType = KeyboardType.Email
+        ) { email = it }
         InputTextComponent(
             "Password",
             "Enter your password",
+            text = password,
             keyboardType = KeyboardType.Password,
             isPassword = true
-        )
+        ) { password = it }
 
-        val navigator = getAppNavigator()
-        Button(modifier = Modifier.fillMaxWidth(), onClick = { navigator.push(OTPScreenNavigator) }) {
+        Button(
+            modifier = Modifier.fillMaxWidth(),
+            onClick = { loginViewModel.login(email, password) }
+        )
+        {
+
             Text(if (isLoginScreen) "Login" else "Sign Up")
         }
 
@@ -111,10 +137,11 @@ fun LoginSignUpScreenComponent(isLoginScreen: Boolean, onClick: () -> Unit) {
 fun InputTextComponent(
     title: String,
     label: String,
+    text: String,
     keyboardType: KeyboardType,
-    isPassword: Boolean = false
+    isPassword: Boolean = false,
+    onValueChanged: (String) -> Unit
 ) {
-    var text by remember { mutableStateOf("") }
     var passwordVisible by remember { mutableStateOf(false) }
 
     Column {
@@ -122,7 +149,7 @@ fun InputTextComponent(
 
         OutlinedTextField(
             value = text,
-            onValueChange = { text = it },
+            onValueChange = { onValueChanged(it) },
             shape = RoundedCornerShape(16.dp),
             modifier = Modifier.fillMaxWidth(),
             label = { Text(label) },
