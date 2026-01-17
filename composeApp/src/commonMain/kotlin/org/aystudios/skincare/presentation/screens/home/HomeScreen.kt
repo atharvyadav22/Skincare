@@ -11,7 +11,10 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -19,15 +22,19 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.screen.Screen
+import org.aystudios.skincare.core.network.ApiResult
+import org.aystudios.skincare.core.network.createHttpClient
 import org.aystudios.skincare.presentation.screens.home.component.CategoriesComponent
 import org.aystudios.skincare.presentation.components.BottomTabsTobBarComponent
 import org.aystudios.skincare.presentation.screens.home.component.HorizontalCarouselComponent
 import org.aystudios.skincare.presentation.screens.home.component.ProductCategoryComponent
 import org.aystudios.skincare.presentation.screens.home.component.SearchBarComponent
 import org.aystudios.skincare.ui.theme.AppScaffold
+import org.aystudios.skincare.utils.LocalProductViewModel
+import org.aystudios.skincare.utils.LocalTokenStorage
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
-object HomeScreenNavigator: Screen{
+object HomeScreenNavigator : Screen {
     @Composable
     override fun Content() {
         HomeScreen()
@@ -41,6 +48,14 @@ fun HomeScreen() {
 
     var searchText by rememberSaveable { mutableStateOf("") }
     val isSearchEmpty = searchText.isBlank()
+    val productViewModel = LocalProductViewModel.current
+    val productByCategoryState by productViewModel.productByCategoryState.collectAsState()
+
+    productViewModel.getProductByCategory("sunscreen")
+
+    LaunchedEffect(Unit) {
+        productViewModel.getProductByCategory("sunscreen")
+    }
 
     AppScaffold(showTopBar = false) {
 
@@ -53,12 +68,27 @@ fun HomeScreen() {
 
             BottomTabsTobBarComponent()
 
+            when (productByCategoryState) {
+                is ApiResult.Loading -> Text("Loading")
+                is ApiResult.Error -> Text(productByCategoryState.toString())
+                is ApiResult.Success -> Text(productByCategoryState.toString())
+                else -> Unit
+            }
+
             SearchBarComponent(searchText) { searchText = it }
 
             AnimatedVisibility(
                 visible = isSearchEmpty,
-                enter = fadeIn(animationSpec = tween(250)) + expandVertically(animationSpec = tween(300)),
-                exit = fadeOut(animationSpec = tween(200)) + shrinkVertically(animationSpec = tween(220))
+                enter = fadeIn(animationSpec = tween(250)) + expandVertically(
+                    animationSpec = tween(
+                        300
+                    )
+                ),
+                exit = fadeOut(animationSpec = tween(200)) + shrinkVertically(
+                    animationSpec = tween(
+                        220
+                    )
+                )
             ) {
                 Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
                     HorizontalCarouselComponent()
@@ -73,3 +103,4 @@ fun HomeScreen() {
         }
     }
 }
+

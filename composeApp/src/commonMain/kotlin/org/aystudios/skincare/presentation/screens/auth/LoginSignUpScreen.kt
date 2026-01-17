@@ -12,23 +12,22 @@ import org.aystudios.skincare.presentation.navigation.AppBottomNavigator
 import org.aystudios.skincare.presentation.screens.auth.component.LoginSignUpScreenComponent
 import org.aystudios.skincare.presentation.viewmodels.LoginViewModel
 import org.aystudios.skincare.ui.theme.AppScaffold
+import org.aystudios.skincare.utils.LocalLoginViewModel
+import org.aystudios.skincare.utils.LocalTokenStorage
 import org.aystudios.skincare.utils.TokenStorage
-import org.jetbrains.compose.ui.tooling.preview.Preview
 
-data class LoginSignUpScreenNavigator(
-    val viewModel: LoginViewModel,
-    val tokenStorage: TokenStorage
-) : Screen {
+object LoginSignUpScreenNavigator : Screen {
     @Composable
     override fun Content() {
-        LoginSignUpScreen(viewModel, tokenStorage)
+        LoginSignUpScreen()
     }
 }
 
-@Preview
 @Composable
-fun LoginSignUpScreen(viewModel: LoginViewModel, tokenStorage: TokenStorage) {
+fun LoginSignUpScreen() {
 
+    val viewModel = LocalLoginViewModel.current
+    val tokenStorage = LocalTokenStorage.current
     val navigator = getAppNavigator()
 
     LaunchedEffect(Unit) {
