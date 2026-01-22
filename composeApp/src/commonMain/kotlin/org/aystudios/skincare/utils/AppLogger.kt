@@ -1,0 +1,9 @@
+package org.aystudios.skincare.utils
+
+import co.touchlab.kermit.Logger
+
+object AppLogger {
+
+    val auth = Logger.withTag("AUTH")
+    val products = Logger.withTag("PRODUCTS")
+}

@@ -17,7 +17,6 @@ import org.aystudios.skincare.data.remote.api.AuthApi
 import org.aystudios.skincare.data.remote.api.ProductApi
 import org.aystudios.skincare.data.repository.AuthRepositoryImpl
 import org.aystudios.skincare.data.repository.ProductRepositoryImpl
-import org.aystudios.skincare.domain.ProductRepository
 import org.aystudios.skincare.presentation.screens.auth.LoginSignUpScreenNavigator
 import org.aystudios.skincare.presentation.viewmodels.LoginViewModel
 import org.aystudios.skincare.presentation.viewmodels.ProductViewModel
@@ -28,6 +27,7 @@ import org.aystudios.skincare.utils.TokenStorage
 
 @Composable
 fun App(settings: Settings) {
+
 
     val tokenStorage = remember { TokenStorage(settings) }
     val client = remember { createHttpClient(tokenStorage) }
