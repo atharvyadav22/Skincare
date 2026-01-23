@@ -57,7 +57,11 @@ kotlin {
             implementation(libs.ktor.serialization.kotlinx.json)
             implementation(libs.ktor.client.logging)
             implementation(libs.ktor.client.content.negotiation)
+            implementation(libs.kotlinx.coroutines.core)
+            implementation(libs.ktor.client.auth)
+
             implementation("com.russhwolf:multiplatform-settings:1.3.0")
+            implementation("co.touchlab:kermit:2.0.4")
 
 
         }
@@ -71,7 +75,7 @@ kotlin {
             implementation(compose.desktop.currentOs)
             implementation(libs.kotlinx.coroutinesSwing)
 
-            implementation(libs.ktor.client.jvm)
+            implementation(libs.ktor.client.cio)
         }
     }
 }

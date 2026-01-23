@@ -11,8 +11,9 @@ import androidx.compose.ui.Modifier
 import cafe.adriel.voyager.navigator.Navigator
 import cafe.adriel.voyager.transitions.SlideTransition
 import com.russhwolf.settings.Settings
-import org.aystudios.skincare.core.network.createAuthHttpClient
-import org.aystudios.skincare.core.network.createHttpClient
+import io.ktor.client.HttpClient
+import org.aystudios.skincare.core.network.providesAuthHttpClient
+import org.aystudios.skincare.core.network.providesHttpFactory
 import org.aystudios.skincare.data.remote.api.AuthApi
 import org.aystudios.skincare.data.remote.api.ProductApi
 import org.aystudios.skincare.data.repository.AuthRepositoryImpl
@@ -23,31 +24,35 @@ import org.aystudios.skincare.presentation.viewmodels.ProductViewModel
 import org.aystudios.skincare.utils.LocalLoginViewModel
 import org.aystudios.skincare.utils.LocalProductViewModel
 import org.aystudios.skincare.utils.LocalTokenStorage
+import org.aystudios.skincare.utils.TokenRefresher
 import org.aystudios.skincare.utils.TokenStorage
 
 @Composable
 fun App(settings: Settings) {
 
-
     val tokenStorage = remember { TokenStorage(settings) }
-    val client = remember { createHttpClient(tokenStorage) }
-    val authClient = remember { createAuthHttpClient() }
+    val authClient = remember { providesAuthHttpClient() }
     val authApi = remember { AuthApi(authClient) }
+    val tokenRefresher = remember { TokenRefresher(authApi, tokenStorage) }
+    val client = remember { providesHttpFactory(tokenStorage, tokenRefresher) }
     val productApi = remember { ProductApi(client) }
     val authRepository = remember { AuthRepositoryImpl(authApi, tokenStorage, authClient) }
-    val productRepository = remember{ ProductRepositoryImpl(productApi, tokenStorage, client) }
-    val viewModel = remember { LoginViewModel(authRepository) }
-    val productViewModel = remember { ProductViewModel(productRepository) }
 
+    val productRepository = remember { ProductRepositoryImpl(productApi, tokenStorage, client) }
+    val loginViewModel = remember { LoginViewModel(authRepository) }
+    val productViewModel = remember { ProductViewModel(productRepository) }
 
     CompositionLocalProvider(
         LocalTokenStorage provides tokenStorage,
-        LocalLoginViewModel provides viewModel,
+        LocalLoginViewModel provides loginViewModel,
         LocalProductViewModel provides productViewModel
     ) {
         Scaffold { paddingValues ->
-            Box(modifier = Modifier.fillMaxSize().padding(paddingValues)) {
-
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(paddingValues)
+            ) {
                 Navigator(LoginSignUpScreenNavigator) {
                     SlideTransition(it)
                 }

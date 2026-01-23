@@ -4,6 +4,8 @@ import co.touchlab.kermit.Logger
 
 object AppLogger {
 
+    val network = Logger.withTag("NETWORK")
     val auth = Logger.withTag("AUTH")
     val products = Logger.withTag("PRODUCTS")
+
 }
