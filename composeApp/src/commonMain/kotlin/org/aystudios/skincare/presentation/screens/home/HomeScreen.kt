@@ -11,6 +11,8 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -23,15 +25,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.screen.Screen
 import org.aystudios.skincare.core.network.ApiResult
-import org.aystudios.skincare.core.network.createHttpClient
-import org.aystudios.skincare.presentation.screens.home.component.CategoriesComponent
 import org.aystudios.skincare.presentation.components.BottomTabsTobBarComponent
+import org.aystudios.skincare.presentation.screens.home.component.CategoriesComponent
 import org.aystudios.skincare.presentation.screens.home.component.HorizontalCarouselComponent
 import org.aystudios.skincare.presentation.screens.home.component.ProductCategoryComponent
 import org.aystudios.skincare.presentation.screens.home.component.SearchBarComponent
 import org.aystudios.skincare.ui.theme.AppScaffold
 import org.aystudios.skincare.utils.LocalProductViewModel
-import org.aystudios.skincare.utils.LocalTokenStorage
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 object HomeScreenNavigator : Screen {
@@ -49,17 +49,13 @@ fun HomeScreen() {
     var searchText by rememberSaveable { mutableStateOf("") }
     val isSearchEmpty = searchText.isBlank()
     val productViewModel = LocalProductViewModel.current
-    val productByCategoryState by productViewModel.productByCategoryState.collectAsState()
-
-    productViewModel.getProductByCategory("sunscreen")
+    val allCategoriesState by productViewModel.allCategoryState.collectAsState()
 
     LaunchedEffect(Unit) {
-        productViewModel.getProductByCategory("sunscreen")
+        productViewModel.getAllCategories()
     }
 
     AppScaffold(showTopBar = false) {
-
-
         Column(
             modifier = Modifier
                 .fillMaxSize(),
@@ -67,13 +63,6 @@ fun HomeScreen() {
         ) {
 
             BottomTabsTobBarComponent()
-
-            when (productByCategoryState) {
-                is ApiResult.Loading -> Text("Loading")
-                is ApiResult.Error -> Text(productByCategoryState.toString())
-                is ApiResult.Success -> Text(productByCategoryState.toString())
-                else -> Unit
-            }
 
             SearchBarComponent(searchText) { searchText = it }
 
@@ -93,9 +82,22 @@ fun HomeScreen() {
                 Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
                     HorizontalCarouselComponent()
                     CategoriesComponent()
-                    ProductCategoryComponent("SunScreen")
-                    ProductCategoryComponent("Moisturizer")
-                    ProductCategoryComponent("Serum")
+
+                    when (allCategoriesState) {
+                        is ApiResult.Success -> {
+
+                            (allCategoriesState as ApiResult.Success<List<String>>).data.forEach {
+                                ProductCategoryComponent(it, productViewModel)
+
+                            }
+                        }
+
+                        is ApiResult.Error -> {
+                            Text((allCategoriesState as ApiResult.Error).message)
+                        }
+
+                        else -> Text("Loading... ")
+                    }
                 }
             }
 

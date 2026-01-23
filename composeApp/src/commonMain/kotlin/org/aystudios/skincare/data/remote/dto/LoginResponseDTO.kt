@@ -6,6 +6,5 @@ import kotlinx.serialization.Serializable
 data class LoginResponseDTO(
     val accessToken: String,
     val refreshToken: String,
-    val tokenType: String,
     val expiresIn: Long
 )

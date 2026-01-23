@@ -32,6 +32,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.screen.Screen
+import org.aystudios.skincare.data.remote.dto.Content
 import org.aystudios.skincare.presentation.components.AppButtonComponent
 import org.aystudios.skincare.presentation.components.FavouriteItemToggleComponent
 import org.aystudios.skincare.presentation.components.QtyChipButtonComponent
@@ -51,28 +52,26 @@ import skincare.composeapp.generated.resources.Res
 import skincare.composeapp.generated.resources.cart
 import skincare.composeapp.generated.resources.cleanser
 
-data class DetailsScreenNavigator(val favouriteSize: Dp) : Screen {
+data class DetailsScreenNavigator(val item: Content) : Screen {
     @Composable
     override fun Content() {
-        DetailsScreen()
+        DetailsScreen(item)
     }
 
 }
 
 @Preview
 @Composable
-fun DetailsScreen() {
+fun DetailsScreen(item: Content) {
 
     AppScaffold(showTopBar = false, isZeroPaddingValues = true, enableManualScroll = false) {
 
-        Column(
-            modifier = Modifier.fillMaxSize().background(AppBackgroundColor),
-            verticalArrangement = Arrangement.SpaceBetween
-        ) {
-            Column(modifier = Modifier.weight(1f)) {
+        Column(modifier =Modifier.fillMaxSize(), verticalArrangement = Arrangement.SpaceBetween) {
+            Column() {
                 DetailsTopAppBarComponent()
 
                 Card(
+                    modifier = Modifier.weight(1f),
                     colors = CardDefaults.cardColors(AppSurfaceColor),
                     shape = RoundedCornerShape(topStartPercent = 12, topEndPercent = 12)
                 ) {
@@ -97,7 +96,7 @@ fun DetailsScreen() {
                             verticalAlignment = Alignment.CenterVertically
                         ) {
                             Text(
-                                "Gentle Hydrating Cleanser",
+                                item.name,
                                 modifier = Modifier.weight(1f),
                                 overflow = TextOverflow.Ellipsis,
                                 maxLines = 2,
@@ -123,13 +122,13 @@ fun DetailsScreen() {
                                 Text("From: ", style = MaterialTheme.typography.titleMedium)
 
                                 Text(
-                                    "₹599", style = MaterialTheme.typography.titleMedium.copy(
+                                    "₹${item.originalPrice}", style = MaterialTheme.typography.titleMedium.copy(
                                         fontWeight = FontWeight.W500
                                     )
                                 )
 
                                 Text(
-                                    "₹799",
+                                    "₹${item.discountPrice}",
                                     style = MaterialTheme.typography.bodyMedium.copy(
                                         textDecoration = TextDecoration.LineThrough,
                                         fontWeight = FontWeight.W500
@@ -156,7 +155,7 @@ fun DetailsScreen() {
                         Column {
                             Text("Description", style = MaterialTheme.typography.titleMedium)
                             Text(
-                                "Glow’s Gentle Foaming Cleanser lathers into a soft, bubbly foam that gently removes impurities and makeup while soothing and hydrating skin for a refreshed, radiant glow.",
+                                item.description,
                                 style = MaterialTheme.typography.bodyMedium
                             )
                         }
@@ -179,7 +178,6 @@ fun DetailsScreen() {
                     count = qty,
                     onCountChange = { qty = it },
                     modifier = Modifier.padding(8.dp),
-                    backgroundColor = AppSurfaceColor,
                     iconSize = 28.dp
                 )
             }

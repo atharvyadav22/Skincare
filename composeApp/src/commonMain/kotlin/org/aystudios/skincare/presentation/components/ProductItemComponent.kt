@@ -28,6 +28,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
+import org.aystudios.skincare.data.remote.dto.Content
 import org.aystudios.skincare.presentation.screens.details.DetailsScreenNavigator
 import org.aystudios.skincare.ui.theme.AppPrimaryColor
 import org.aystudios.skincare.ui.theme.AppSurfaceColor
@@ -38,7 +39,7 @@ import skincare.composeapp.generated.resources.dummy
 
 @Preview
 @Composable
-fun ProductItemComponent() {
+fun ProductItemComponent(item: Content) {
 
     val navigator = getAppRootNavigator()
 
@@ -48,7 +49,7 @@ fun ProductItemComponent() {
         Column(
             verticalArrangement = Arrangement.spacedBy(4.dp),
             modifier = Modifier.background(AppSurfaceColor).padding(4.dp).clickable {
-                navigator?.push(DetailsScreenNavigator(48.dp))
+                navigator?.push(DetailsScreenNavigator(item))
             }
         ) {
 
@@ -74,9 +75,10 @@ fun ProductItemComponent() {
 
             Column(modifier = Modifier.padding(start = 4.dp)) {
                 Text(
-                    "Sunscreen SPA 50+++",
+                    item.name,
                     modifier = Modifier.width(130.dp),
                     style = MaterialTheme.typography.titleMedium,
+                    minLines = 2,
                     maxLines = 2
                 )
                 Row(
@@ -89,14 +91,14 @@ fun ProductItemComponent() {
                         horizontalArrangement = Arrangement.spacedBy(8.dp)
                     ) {
                         Text(
-                            "₹799",
+                            "₹${item.originalPrice}",
                             style = MaterialTheme.typography.bodySmall.copy(
                                 textDecoration = TextDecoration.LineThrough,
                                 fontWeight = FontWeight.SemiBold
                             ),
                             color = AppPrimaryColor
                         )
-                        Text("₹599", style = MaterialTheme.typography.titleMedium)
+                        Text("₹${item.discountPrice}", style = MaterialTheme.typography.titleMedium)
                     }
 
 

@@ -25,7 +25,7 @@ fun FavouriteScreen() {
         LazyVerticalGrid(columns = GridCells.Adaptive(150.dp)) {
 
             items(10){
-                ProductItemComponent()
+//                ProductItemComponent(state.items)
             }
 
             item {
