@@ -2,6 +2,7 @@ package org.aystudios.skincare.core.network
 
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.HttpClientEngine
+import io.ktor.client.plugins.HttpTimeout
 import io.ktor.client.plugins.auth.Auth
 import io.ktor.client.plugins.auth.providers.BearerTokens
 import io.ktor.client.plugins.auth.providers.bearer
@@ -31,9 +32,15 @@ fun providesAuthHttpClient(): HttpClient =
         defaultRequest {
             contentType(ContentType.Application.Json)
         }
+
+        install(HttpTimeout) {
+            requestTimeoutMillis = 60_000      // ⏱️ total request
+            connectTimeoutMillis = 30_000      // 🔌 TCP connect
+            socketTimeoutMillis = 60_000       // 📡 data transfer
+        }
     }
 
-fun providesHttpFactory(
+fun providesHttpClient(
     tokenStorage: TokenStorage,
     tokenRefresher: TokenRefresher
 ): HttpClient {
@@ -88,6 +95,12 @@ fun providesHttpFactory(
         // Highly recommended for debugging your Spring Boot responses
         install(Logging) {
             level = LogLevel.INFO
+        }
+
+        install(HttpTimeout) {
+            requestTimeoutMillis = 60_000      // ⏱️ total request
+            connectTimeoutMillis = 30_000      // 🔌 TCP connect
+            socketTimeoutMillis = 60_000       // 📡 data transfer
         }
 
     }

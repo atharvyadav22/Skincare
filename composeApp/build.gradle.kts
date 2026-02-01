@@ -39,6 +39,7 @@ kotlin {
             implementation(libs.androidx.activity.compose)
 
             implementation(libs.ktor.client.okhttp)
+            implementation(libs.koin.android)
         }
         commonMain.dependencies {
             implementation(compose.runtime)
@@ -62,6 +63,9 @@ kotlin {
 
             implementation("com.russhwolf:multiplatform-settings:1.3.0")
             implementation("co.touchlab:kermit:2.0.4")
+            implementation(libs.koin.core)
+            implementation(libs.koin.compose)
+            implementation(libs.koin.compose.viewmodel)
 
 
         }
