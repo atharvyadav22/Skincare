@@ -8,9 +8,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 
 @Composable
-fun AppButtonComponent(modifier: Modifier = Modifier, text: String) {
+fun AppButtonComponent(modifier: Modifier = Modifier, text: String, enabled: Boolean = true, onClick: () -> Unit) {
 
-    Button(modifier = modifier.fillMaxWidth(), onClick = { } ) {
+    Button(modifier = modifier.fillMaxWidth(), enabled = enabled, onClick =  onClick ) {
         Text(text, style = MaterialTheme.typography.titleMedium)
     }
 }

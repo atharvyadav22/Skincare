@@ -7,7 +7,7 @@ data class Content(
     val brand: String,
     val category: String,
     val description: String,
-    val id: Int,
+    val id: Long,
     val name: String,
     val originalPrice: Double,
     val discountPrice: Double,

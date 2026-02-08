@@ -3,14 +3,18 @@ package org.aystudios.skincare.di
 import org.aystudios.skincare.core.network.providesAuthHttpClient
 import org.aystudios.skincare.core.network.providesHttpClient
 import org.aystudios.skincare.data.remote.api.AuthApi
+import org.aystudios.skincare.data.remote.api.CartApi
 import org.aystudios.skincare.data.remote.api.ProductApi
 import org.aystudios.skincare.data.remote.api.UserApi
 import org.aystudios.skincare.data.repository.AuthRepositoryImpl
+import org.aystudios.skincare.data.repository.CartRepositoryImpl
 import org.aystudios.skincare.data.repository.ProductRepositoryImpl
 import org.aystudios.skincare.data.repository.UserRepositoryImpl
 import org.aystudios.skincare.domain.AuthRepository
+import org.aystudios.skincare.domain.CartRepository
 import org.aystudios.skincare.domain.ProductRepository
 import org.aystudios.skincare.domain.UserRepository
+import org.aystudios.skincare.presentation.viewmodels.CartViewModel
 import org.aystudios.skincare.presentation.viewmodels.LoginViewModel
 import org.aystudios.skincare.presentation.viewmodels.ProductViewModel
 import org.aystudios.skincare.presentation.viewmodels.UserViewModel
@@ -61,36 +65,20 @@ val networkModule = module {
     }
 
     single {
-        AuthApi(
-            client = get(named("AUTH_CLIENT")),
-            baseUrl = get(named("BASE_URL"))
-        )
+        AuthApi(get(named("AUTH_CLIENT")),get(named("BASE_URL")))
     }
 
     single {
-        ProductApi(
-            client = get(named("DEFAULT_CLIENT")),
-            baseUrl = get(named("BASE_URL"))
-        )
+        ProductApi(get(named("DEFAULT_CLIENT")),get(named("BASE_URL")))
+    }
+    single {
+        UserApi(get(named("DEFAULT_CLIENT")), get(named("BASE_URL")))
+    }
+    single {
+        CartApi(get(named("DEFAULT_CLIENT")), get(named("BASE_URL")))
     }
 
-//    factory { params ->
-//        val baseUrl: String = params.getOrNull() ?: let {
-//            val storage: TokenStorage = get()
-//            if (storage.getBaseUrl()) AppConfig.LOCAL_BASE_URL else AppConfig.BASE_URL
-//        }
-//        ProductApi(client = get(named("client")), baseUrl = baseUrl)
-//    }
-//
-//    factory { params ->
-//        val baseUrl: String = params.getOrNull() ?: let {
-//            val storage: TokenStorage = get()
-//            if (storage.getBaseUrl()) AppConfig.LOCAL_BASE_URL else AppConfig.BASE_URL
-//        }
-//        UserApi(client = get(named("client")), baseUrl = baseUrl)
-//    }
 }
-
 
 val dataModule = module {
     single { TokenStorage(get()) }
@@ -98,11 +86,13 @@ val dataModule = module {
 
     single { AuthRepositoryImpl(get(),get()) } bind AuthRepository::class
     single { ProductRepositoryImpl(get()) } bind ProductRepository::class
-//    single { UserRepositoryImpl(get()) } bind UserRepository::class
+    single { UserRepositoryImpl(get()) } bind UserRepository::class
+    single { CartRepositoryImpl(get()) } bind CartRepository::class
 }
 
 val viewModelModule = module {
     viewModel { LoginViewModel(get()) }
     viewModel { ProductViewModel(get()) }
-//    viewModel { UserViewModel(get()) }
+    viewModel { UserViewModel(get()) }
+    viewModel { CartViewModel(get()) }
 }
