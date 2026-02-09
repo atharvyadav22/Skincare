@@ -7,5 +7,5 @@ import org.aystudios.skincare.data.remote.dto.UserProfileResponseDTO
 interface UserRepository {
 
     suspend fun getUserProfile(): ApiResult<UserProfileResponseDTO>
-    suspend fun updateUserProfile(user: UserProfileRequestDTO): ApiResult<Unit>
+    suspend fun updateUserProfile(user: UserProfileRequestDTO): ApiResult<UserProfileRequestDTO>
 }

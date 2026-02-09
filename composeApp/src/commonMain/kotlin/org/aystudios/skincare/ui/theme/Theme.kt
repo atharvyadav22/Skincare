@@ -23,7 +23,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import org.aystudios.skincare.presentation.components.getAppNavigator
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.painterResource
 import skincare.composeapp.generated.resources.Res
@@ -54,7 +53,8 @@ fun AppTopBar(title: String) {
 
     Row(modifier = Modifier
         .fillMaxWidth()
-        .padding(8.dp)) {
+        .padding(8.dp),
+        verticalAlignment = Alignment.CenterVertically) {
 
         CircularButtonComponent()
 
@@ -72,7 +72,7 @@ fun AppTopBar(title: String) {
 @Composable
 fun AppScaffold(
     isZeroPaddingValues: Boolean = false,
-    enableManualScroll: Boolean = true,
+    enableScroll: Boolean = true,
     showTopBar: Boolean = true,
     topBarTitle: String = "",
     content: @Composable () -> Unit
@@ -95,7 +95,7 @@ fun AppScaffold(
             }
 
             val bodyModifier = Modifier.weight(1f).let {
-                if (enableManualScroll) it.verticalScroll(rememberScrollState())
+                if (enableScroll) it.verticalScroll(rememberScrollState())
                 else it
             }
 

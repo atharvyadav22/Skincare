@@ -18,4 +18,9 @@ class TokenStorage(private val settings: Settings) {
     fun clear() {
         settings.clear()
     }
+//    fun setBaseUrl(useLocal: Boolean ) {
+//        settings.putBoolean("base_url", useLocal)
+//    }
+//    fun getBaseUrl(): Boolean =
+//        settings.getBoolean("base_url", defaultValue = false)
 }

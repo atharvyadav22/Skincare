@@ -1,16 +1,9 @@
 package org.aystudios.skincare.utils
 
-import io.ktor.client.HttpClient
-import io.ktor.client.call.body
-import io.ktor.client.request.post
-import io.ktor.client.request.setBody
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import org.aystudios.skincare.data.remote.api.AuthApi
-import org.aystudios.skincare.data.remote.dto.LoginRequestDTO
-import org.aystudios.skincare.data.remote.dto.LoginResponseDTO
 import org.aystudios.skincare.data.remote.dto.RefreshRequestDTO
-import org.aystudios.skincare.utils.AppConfig.REFRESH
 
 class TokenRefresher(
     private val authApi: AuthApi,
