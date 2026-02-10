@@ -23,20 +23,29 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import cafe.adriel.voyager.navigator.LocalNavigator
+import cafe.adriel.voyager.navigator.currentOrThrow
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.painterResource
 import skincare.composeapp.generated.resources.Res
 import skincare.composeapp.generated.resources.back
 
 @Composable
-fun CircularButtonComponent(painter: DrawableResource = Res.drawable.back, onClick: () -> Unit = {}) {
+fun CircularButtonComponent(
+    painter: DrawableResource = Res.drawable.back,
+    onClick: (() -> Unit)? = null
+) {
 
+    val navigator = LocalNavigator.currentOrThrow
     Box(
         modifier = Modifier
             .size(38.dp)
             .clip(CircleShape)
             .background(AppSurfaceColor)
-            .clickable { onClick() },
+            .clickable {
+                if (onClick != null) onClick()
+                else navigator.pop()
+            },
         contentAlignment = Alignment.Center
     ) {
 
@@ -51,10 +60,12 @@ fun CircularButtonComponent(painter: DrawableResource = Res.drawable.back, onCli
 @Composable
 fun AppTopBar(title: String) {
 
-    Row(modifier = Modifier
-        .fillMaxWidth()
-        .padding(8.dp),
-        verticalAlignment = Alignment.CenterVertically) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(8.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
 
         CircularButtonComponent()
 
@@ -100,7 +111,7 @@ fun AppScaffold(
             }
 
             Box(modifier = bodyModifier) {
-                    content()
+                content()
             }
 
 

@@ -1,6 +1,5 @@
 package org.aystudios.skincare.data.repository
 
-import io.ktor.client.HttpClient
 import org.aystudios.skincare.core.network.ApiResult
 import org.aystudios.skincare.core.network.safeApiCall
 import org.aystudios.skincare.data.remote.api.AuthApi
@@ -9,7 +8,7 @@ import org.aystudios.skincare.domain.AuthRepository
 import org.aystudios.skincare.utils.AppLogger
 import org.aystudios.skincare.utils.TokenStorage
 
-class AuthRepositoryImpl(private val authApi: AuthApi, private val tokenStorage: TokenStorage, private val client: HttpClient): AuthRepository {
+class AuthRepositoryImpl(private val authApi: AuthApi, private val tokenStorage: TokenStorage): AuthRepository {
 
     override suspend fun login(
         email: String,

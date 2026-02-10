@@ -10,15 +10,15 @@ import org.aystudios.skincare.data.remote.dto.RefreshRequestDTO
 import org.aystudios.skincare.utils.AppConfig.LOGIN
 import org.aystudios.skincare.utils.AppConfig.REFRESH
 
-class AuthApi(private val client: HttpClient){
+class AuthApi(private val client: HttpClient, private val baseUrl: String){
 
     suspend fun login(loginRequestDTO: LoginRequestDTO): LoginResponseDTO {
-        return client.post(LOGIN){
+        return client.post("${baseUrl}${LOGIN}"){
             setBody(loginRequestDTO)
         }.body()
     }
     suspend fun refresh(body: RefreshRequestDTO): LoginResponseDTO {
-        return client.post(REFRESH) {
+        return client.post("${baseUrl}${REFRESH}") {
             setBody(body)
         }.body()
     }
