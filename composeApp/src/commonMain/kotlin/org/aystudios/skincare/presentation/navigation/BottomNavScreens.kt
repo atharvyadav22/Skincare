@@ -2,17 +2,22 @@ package org.aystudios.skincare.presentation.navigation
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -22,8 +27,11 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -34,10 +42,9 @@ import cafe.adriel.voyager.navigator.tab.CurrentTab
 import cafe.adriel.voyager.navigator.tab.LocalTabNavigator
 import cafe.adriel.voyager.navigator.tab.Tab
 import cafe.adriel.voyager.navigator.tab.TabNavigator
-import org.aystudios.skincare.presentation.screens.home.HomeScreen
 import org.aystudios.skincare.ui.theme.AppPrimaryColor
 import org.aystudios.skincare.ui.theme.AppSurfaceColor
-import org.jetbrains.compose.ui.tooling.preview.Preview
+import org.aystudios.skincare.utils.LocalBottomBarProgress
 
 object AppBottomNavigator : Screen {
 
@@ -48,33 +55,38 @@ object AppBottomNavigator : Screen {
 
 }
 
-class MainTabsScreenNavigator(
-    private val startTab: Tab = HomeTab
-) : Screen {
 
-    @Composable
-    override fun Content() {
-        AppBottomNavigation(tab = startTab)
-    }
-}
-
-
-@Preview
 @Composable
 fun AppBottomNavigation(tab: Tab = HomeTab) {
+
+    val bottomBarProgress = remember { mutableStateOf(0f) }
+
     TabNavigator(tab) {
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
+
+        CompositionLocalProvider(
+            LocalBottomBarProgress provides bottomBarProgress
         ) {
 
-            CurrentTab()
+            Box(
+                modifier = Modifier.fillMaxSize()
+            ) {
 
-            AppCustomBottomBar(
-                modifier = Modifier
-                    .align(Alignment.BottomCenter)
-                    .padding(bottom = 4.dp)
-            )
+                CurrentTab()
+
+                val barHeight = 80.dp
+
+                val offsetY by animateDpAsState(
+                    targetValue = barHeight * bottomBarProgress.value,
+                    label = "bottomOffset"
+                )
+
+                AppCustomBottomBar(
+                    modifier = Modifier
+                        .align(Alignment.BottomCenter)
+                        .offset(y = offsetY)
+                )
+
+            }
         }
     }
 }
@@ -156,6 +168,4 @@ fun CustomTabItem(
         }
     }
 }
-
-
 

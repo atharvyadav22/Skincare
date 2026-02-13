@@ -11,28 +11,32 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import cafe.adriel.voyager.core.screen.Screen
-import org.aystudios.skincare.core.network.ApiResult
-import org.aystudios.skincare.presentation.components.BottomTabsTobBarComponent
+import org.aystudios.skincare.presentation.components.ProductItemComponent
 import org.aystudios.skincare.presentation.screens.home.component.CategoriesComponent
+import org.aystudios.skincare.presentation.screens.home.component.HomeScreenTopBarComponent
 import org.aystudios.skincare.presentation.screens.home.component.HorizontalCarouselComponent
 import org.aystudios.skincare.presentation.screens.home.component.ProductCategoryComponent
 import org.aystudios.skincare.presentation.screens.home.component.SearchBarComponent
+import org.aystudios.skincare.presentation.viewmodels.ProductViewModel
 import org.aystudios.skincare.ui.theme.AppScaffold
-import org.aystudios.skincare.utils.LocalProductViewModel
-import org.jetbrains.compose.ui.tooling.preview.Preview
+import org.aystudios.skincare.utils.LocalBottomBarProgress
+import org.koin.compose.viewmodel.koinViewModel
 
 object HomeScreenNavigator : Screen {
     @Composable
@@ -42,66 +46,130 @@ object HomeScreenNavigator : Screen {
 
 }
 
-@Preview
 @Composable
 fun HomeScreen() {
 
     var searchText by rememberSaveable { mutableStateOf("") }
-    val isSearchEmpty = searchText.isBlank()
-    val productViewModel = LocalProductViewModel.current
-    val allCategoriesState by productViewModel.allCategoryState.collectAsState()
+    val isSearching = searchText.isNotBlank()
 
-    LaunchedEffect(Unit) {
-        productViewModel.getAllCategories()
-    }
+    val productViewModel: ProductViewModel = koinViewModel()
 
-    AppScaffold(showTopBar = false) {
+    val categoriesState by productViewModel
+        .allCategoryState
+        .collectAsStateWithLifecycle()
+
+    val searchQuery by productViewModel.searchQuery.collectAsStateWithLifecycle()
+    val searchState by productViewModel.searchState.collectAsStateWithLifecycle()
+
+
+
+    AppScaffold(showTopBar = false, enableScroll = !isSearching) {
+
         Column(
-            modifier = Modifier
-                .fillMaxSize(),
+            modifier = Modifier.fillMaxSize(),
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
 
-            BottomTabsTobBarComponent()
+            HomeScreenTopBarComponent()
 
-            SearchBarComponent(searchText) { searchText = it }
+            SearchBarComponent(searchText) {
+                searchText = it
+                productViewModel.onSearchQueryChange(it)
+            }
 
-            AnimatedVisibility(
-                visible = isSearchEmpty,
-                enter = fadeIn(animationSpec = tween(250)) + expandVertically(
-                    animationSpec = tween(
-                        300
-                    )
-                ),
-                exit = fadeOut(animationSpec = tween(200)) + shrinkVertically(
-                    animationSpec = tween(
-                        220
-                    )
-                )
-            ) {
-                Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
-                    HorizontalCarouselComponent()
-                    CategoriesComponent()
+            if(searchQuery.isNotBlank()){
+//                SeeAllProductsScreen(state = searchState, isSearch = true) {}
 
-                    when (allCategoriesState) {
-                        is ApiResult.Success -> {
+                val progressState = LocalBottomBarProgress.current
+                val gridState = rememberLazyGridState()
 
-                            (allCategoriesState as ApiResult.Success<List<String>>).data.forEach {
-                                ProductCategoryComponent(it, productViewModel)
+                LaunchedEffect(gridState) {
 
+                    snapshotFlow {
+                        gridState.firstVisibleItemScrollOffset
+                    }.collect { offset ->
+
+                        // 🔥 Scroll range define karo
+                        val maxScroll = 200f
+
+                        val progress = (offset / maxScroll)
+                            .coerceIn(0f, 1f)
+
+                        progressState.value = progress
+                    }
+                }
+
+
+                when{
+                    searchState.isLoading -> {Text("Loading...")}
+                    searchState.error != null -> {Text(searchState.error ?: "Error")}
+                    searchState.items.isEmpty() -> {Text("No Products Found")}
+                    else -> {
+
+
+                        LazyVerticalGrid(
+                            state = gridState,
+                            modifier = Modifier.fillMaxSize(),
+                            columns = GridCells.Adaptive(150.dp),
+                        ) {
+                            items(searchState.items){
+                                ProductItemComponent(it)
                             }
                         }
 
-                        is ApiResult.Error -> {
-                            Text((allCategoriesState as ApiResult.Error).message)
-                        }
-
-                        else -> Text("Loading... ")
                     }
                 }
             }
+            else {
+                AnimatedVisibility(
+                    visible = !isSearching,
+                    enter = fadeIn(animationSpec = tween(250)) + expandVertically(
+                        animationSpec = tween(
+                            300
+                        )
+                    ),
+                    exit = fadeOut(animationSpec = tween(200)) + shrinkVertically(
+                        animationSpec = tween(
+                            220
+                        )
+                    )
+                ) {
+                    Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
+                        HorizontalCarouselComponent()
 
-            Spacer(modifier = Modifier.height(54.dp))
+                        when{
+                            categoriesState.isLoading -> {
+                                Text("Loading...")
+                            }
+                            categoriesState.error != null -> {
+                                Text(categoriesState.error ?: "Error")
+                            }
+                            else -> {
+                                CategoriesComponent(categoriesState.items)
+                            }
+                        }
+
+                        when {
+                            categoriesState.isLoading -> Text("Loading...")
+                            categoriesState.error != null ->
+                                Text(categoriesState.error ?: "Error")
+
+                            else -> {
+                                listOf(
+                                    "Facewash",
+                                    "Moisturizer",
+                                    "Sunscreen",
+                                    "Serum"
+                                ).forEach {
+                                    ProductCategoryComponent(it, productViewModel)
+                                }
+                            }
+                        }
+                    }
+
+                    Spacer(modifier = Modifier.height(54.dp))
+                }
+            }
         }
     }
 }
