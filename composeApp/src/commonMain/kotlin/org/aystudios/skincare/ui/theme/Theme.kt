@@ -52,7 +52,7 @@ fun CircularButtonComponent(
         Icon(
             painter = painterResource(painter),
             contentDescription = null,
-            tint = AppOnBackgroundColor,
+            tint = AppPrimaryColor,
         )
     }
 }
