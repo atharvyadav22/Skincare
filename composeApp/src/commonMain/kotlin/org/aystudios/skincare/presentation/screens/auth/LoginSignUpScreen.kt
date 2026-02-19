@@ -12,9 +12,9 @@ import org.aystudios.skincare.presentation.navigation.AppBottomNavigator
 import org.aystudios.skincare.presentation.screens.auth.component.LoginSignUpScreenComponent
 import org.aystudios.skincare.presentation.viewmodels.LoginViewModel
 import org.aystudios.skincare.ui.theme.AppScaffold
-import org.aystudios.skincare.utils.LocalLoginViewModel
-import org.aystudios.skincare.utils.LocalTokenStorage
 import org.aystudios.skincare.utils.TokenStorage
+import org.koin.compose.koinInject
+import org.koin.compose.viewmodel.koinViewModel
 
 object LoginSignUpScreenNavigator : Screen {
     @Composable
@@ -26,8 +26,8 @@ object LoginSignUpScreenNavigator : Screen {
 @Composable
 fun LoginSignUpScreen() {
 
-    val viewModel = LocalLoginViewModel.current
-    val tokenStorage = LocalTokenStorage.current
+    val tokenStorage: TokenStorage = koinInject()
+    val viewModel: LoginViewModel = koinViewModel()
     val navigator = getAppNavigator()
 
     LaunchedEffect(Unit) {
@@ -38,9 +38,7 @@ fun LoginSignUpScreen() {
 
     var isLoginScreen by remember { mutableStateOf(false) }
     AppScaffold(showTopBar = false) {
-
-        LoginSignUpScreenComponent(viewModel, isLoginScreen, { isLoginScreen = !isLoginScreen })
-
+        LoginSignUpScreenComponent(viewModel, isLoginScreen) { !isLoginScreen }
     }
 
 }
