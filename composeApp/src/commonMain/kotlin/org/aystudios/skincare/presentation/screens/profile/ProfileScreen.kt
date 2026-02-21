@@ -8,13 +8,9 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.screen.Screen
-import org.aystudios.skincare.core.network.ApiResult
 import org.aystudios.skincare.presentation.components.getAppRootNavigator
 import org.aystudios.skincare.presentation.screens.auth.LoginSignUpScreenNavigator
 import org.aystudios.skincare.presentation.screens.profile.component.ProfileTabCategorySectionComponent
@@ -23,10 +19,7 @@ import org.aystudios.skincare.presentation.screens.profile.component.ProfileTabS
 import org.aystudios.skincare.presentation.viewmodels.UserViewModel
 import org.aystudios.skincare.ui.theme.AppScaffold
 import org.aystudios.skincare.ui.theme.AppSurfaceColor
-import org.aystudios.skincare.utils.LocalTokenStorage
-import org.aystudios.skincare.utils.LocalUserViewModel
 import org.aystudios.skincare.utils.TokenStorage
-import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.koinInject
 import org.koin.compose.viewmodel.koinViewModel
 import skincare.composeapp.generated.resources.Res
