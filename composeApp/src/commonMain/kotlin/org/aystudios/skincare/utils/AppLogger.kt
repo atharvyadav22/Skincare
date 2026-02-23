@@ -11,4 +11,6 @@ object AppLogger {
 
     val cart = Logger.withTag("CART")
 
+    val favourite = Logger.withTag("FAVOURITE")
+
 }

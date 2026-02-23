@@ -1,6 +1,9 @@
 package org.aystudios.skincare.utils
 
+import androidx.compose.runtime.Composable
 import org.aystudios.skincare.config.BuildKonfig
+import org.aystudios.skincare.presentation.viewmodels.FavouritesViewModel
+import org.koin.compose.viewmodel.koinViewModel
 
 object AppConfig {
     // Use BuildKonfig library or paste your API key here.
@@ -15,4 +18,10 @@ object AppConfig {
     val UPDATE_USER_PROFILE = "/user"
     val CART = "/cart"
 
+    val FAVOURITES = "/favourites"
+}
+@Composable
+fun customViewModel(): FavouritesViewModel {
+    val customViewModel : FavouritesViewModel = koinViewModel()
+    return customViewModel
 }

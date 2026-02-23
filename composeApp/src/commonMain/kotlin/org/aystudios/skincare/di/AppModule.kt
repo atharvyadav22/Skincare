@@ -4,17 +4,21 @@ import org.aystudios.skincare.core.network.providesAuthHttpClient
 import org.aystudios.skincare.core.network.providesHttpClient
 import org.aystudios.skincare.data.remote.api.AuthApi
 import org.aystudios.skincare.data.remote.api.CartApi
+import org.aystudios.skincare.data.remote.api.FavouritesApi
 import org.aystudios.skincare.data.remote.api.ProductApi
 import org.aystudios.skincare.data.remote.api.UserApi
 import org.aystudios.skincare.data.repository.AuthRepositoryImpl
 import org.aystudios.skincare.data.repository.CartRepositoryImpl
+import org.aystudios.skincare.data.repository.FavouriteRepositoryImpl
 import org.aystudios.skincare.data.repository.ProductRepositoryImpl
 import org.aystudios.skincare.data.repository.UserRepositoryImpl
 import org.aystudios.skincare.domain.AuthRepository
 import org.aystudios.skincare.domain.CartRepository
+import org.aystudios.skincare.domain.FavouriteRepository
 import org.aystudios.skincare.domain.ProductRepository
 import org.aystudios.skincare.domain.UserRepository
 import org.aystudios.skincare.presentation.viewmodels.CartViewModel
+import org.aystudios.skincare.presentation.viewmodels.FavouritesViewModel
 import org.aystudios.skincare.presentation.viewmodels.LoginViewModel
 import org.aystudios.skincare.presentation.viewmodels.ProductViewModel
 import org.aystudios.skincare.presentation.viewmodels.UserViewModel
@@ -77,6 +81,9 @@ val networkModule = module {
     single {
         CartApi(get(named("DEFAULT_CLIENT")), get(named("BASE_URL")))
     }
+    single {
+        FavouritesApi(get(named("DEFAULT_CLIENT")), get(named("BASE_URL")))
+    }
 
 }
 
@@ -88,6 +95,7 @@ val dataModule = module {
     single { ProductRepositoryImpl(get()) } bind ProductRepository::class
     single { UserRepositoryImpl(get()) } bind UserRepository::class
     single { CartRepositoryImpl(get()) } bind CartRepository::class
+    single { FavouriteRepositoryImpl(get()) } bind FavouriteRepository::class
 }
 
 val viewModelModule = module {
@@ -95,4 +103,5 @@ val viewModelModule = module {
     viewModel { ProductViewModel(get()) }
     viewModel { UserViewModel(get()) }
     single { CartViewModel(get()) }
+    viewModel { FavouritesViewModel(get()) }
 }
