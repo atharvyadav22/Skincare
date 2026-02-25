@@ -17,18 +17,19 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.screen.Screen
-import org.aystudios.skincare.data.remote.dto.Content
+import org.aystudios.skincare.data.remote.dto.ProductItemDTO
 import org.aystudios.skincare.presentation.components.AppButtonComponent
 import org.aystudios.skincare.presentation.components.ProductItemComponent
+import org.aystudios.skincare.presentation.viewmodels.FavouritesViewModel
 import org.aystudios.skincare.presentation.viewmodels.ListPagingUIState
 import org.aystudios.skincare.ui.theme.AppPrimaryColor
 import org.aystudios.skincare.ui.theme.AppRedColor
 import org.aystudios.skincare.ui.theme.AppScaffold
 
-data class SeeAllProductsScreenNavigator(val state: ListPagingUIState<Content>, val isSearch: Boolean = false, val onLoadItems: () -> Unit) : Screen {
+data class SeeAllProductsScreenNavigator(val state: ListPagingUIState<ProductItemDTO>, val favouritesViewModel: FavouritesViewModel, val isSearch: Boolean = false, val onLoadItems: () -> Unit) : Screen {
     @Composable
     override fun Content() {
-        SeeAllProductsScreen(state, isSearch) { onLoadItems() }
+        SeeAllProductsScreen(state, favouritesViewModel, isSearch) { onLoadItems() }
     }
 
 }
@@ -36,12 +37,13 @@ data class SeeAllProductsScreenNavigator(val state: ListPagingUIState<Content>, 
 
 @Composable
 fun SeeAllProductsScreen(
-    state: ListPagingUIState<Content>,
+    state: ListPagingUIState<ProductItemDTO>,
+    favouritesViewModel: FavouritesViewModel,
     isSearch: Boolean,
     onLoadItems: () -> Unit
 ) {
 
-    AppScaffold(enableScroll = false, topBarTitle = "Products", showTopBar = !isSearch) {
+    AppScaffold(isZeroPaddingValues = true, topBarTitle = "Products", showTopBar = !isSearch) {
 
         LazyVerticalGrid(
             modifier = Modifier.fillMaxSize(),
@@ -50,7 +52,7 @@ fun SeeAllProductsScreen(
 
             // ----- ITEMS -----
             items(state.items) { item ->
-                ProductItemComponent(item)
+                ProductItemComponent(item, favouritesViewModel)
             }
 
             // ----- LOADING -----

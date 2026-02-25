@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -17,10 +18,6 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -28,28 +25,31 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
-import org.aystudios.skincare.data.remote.dto.Content
+import org.aystudios.skincare.data.remote.dto.ProductItemDTO
 import org.aystudios.skincare.presentation.screens.details.DetailsScreenNavigator
+import org.aystudios.skincare.presentation.viewmodels.FavouritesViewModel
 import org.aystudios.skincare.ui.theme.AppPrimaryColor
 import org.aystudios.skincare.ui.theme.AppSurfaceColor
 import org.jetbrains.compose.resources.painterResource
-import org.jetbrains.compose.ui.tooling.preview.Preview
 import skincare.composeapp.generated.resources.Res
 import skincare.composeapp.generated.resources.dummy
 
-@Preview
 @Composable
-fun ProductItemComponent(item: Content) {
-
+fun ProductItemComponent(
+    item: ProductItemDTO,
+    favouritesViewModel: FavouritesViewModel,
+    isSeeAll: Boolean = true
+) {
     val navigator = getAppRootNavigator()
 
-    Card(modifier = Modifier.padding(end = 8.dp, bottom = 8.dp).width(IntrinsicSize.Min)) {
+    val padding = if(isSeeAll) PaddingValues(horizontal = 12.dp, vertical = 8.dp) else PaddingValues(end = 8.dp)
 
+    Card(modifier = Modifier.padding(padding).width(IntrinsicSize.Min)) {
 
         Column(
             verticalArrangement = Arrangement.spacedBy(4.dp),
             modifier = Modifier.background(AppSurfaceColor).padding(4.dp).clickable {
-                navigator?.push(DetailsScreenNavigator(item))
+                navigator?.push(DetailsScreenNavigator(item, favouritesViewModel))
             }
         ) {
 
@@ -62,21 +62,18 @@ fun ProductItemComponent(item: Content) {
                         .clip(RoundedCornerShape(4.dp))
                 )
 
-                //Toggle Logic
-                var isFavourite by remember {
-                    mutableStateOf(true)
-                }
                 FavouriteItemToggleComponent(
                     modifier = Modifier.align(Alignment.TopEnd).padding(8.dp),
-                    isFavourite = isFavourite
-                ) { isFavourite = !isFavourite }
+                    favouritesViewModel = favouritesViewModel,
+                    product = item
+                )
 
             }
 
             Column(modifier = Modifier.padding(start = 4.dp)) {
                 Text(
                     item.name,
-                    modifier = Modifier.width(130.dp),
+                    modifier = Modifier.width(136.dp),
                     style = MaterialTheme.typography.titleMedium,
                     minLines = 2,
                     maxLines = 2

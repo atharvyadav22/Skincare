@@ -13,6 +13,7 @@ import org.aystudios.skincare.utils.AppConfig.UPDATE_USER_PROFILE
 
 class UserApi(val client: HttpClient,private val baseUrl: String) {
 
+    // TODO: MERGE URL
     suspend fun getUserProfile(): UserProfileResponseDTO{
         return client.get("$baseUrl$GET_USER_PROFILE").body<UserProfileResponseDTO>()
     }

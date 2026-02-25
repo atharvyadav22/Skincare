@@ -3,7 +3,7 @@ package org.aystudios.skincare.data.remote.dto
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class Content(
+data class ProductItemDTO(
     val brand: String,
     val category: String,
     val description: String,
