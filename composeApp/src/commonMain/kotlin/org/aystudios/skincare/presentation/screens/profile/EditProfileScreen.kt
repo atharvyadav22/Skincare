@@ -118,10 +118,10 @@ private fun InputEditFields(viewModel: UserViewModel) {
     var address by rememberSaveable { mutableStateOf("") }
 
     LaunchedEffect(profileState.response) {
-        profileState.response.let { response ->
-            name = response.name.orEmpty()
-            phone = response.phoneNo.orEmpty()
-            address = response.address.orEmpty()
+        profileState.response?.let { response ->
+            name = response.name
+            phone = response.phoneNo
+            address = response.address
         }
     }
 

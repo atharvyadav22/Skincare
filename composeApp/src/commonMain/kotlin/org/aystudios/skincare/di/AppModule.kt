@@ -102,6 +102,6 @@ val viewModelModule = module {
     viewModel { LoginViewModel(get()) }
     viewModel { ProductViewModel(get()) }
     viewModel { UserViewModel(get()) }
-    single { CartViewModel(get()) }
+    viewModel { CartViewModel(get()) }
     viewModel { FavouritesViewModel(get()) }
 }

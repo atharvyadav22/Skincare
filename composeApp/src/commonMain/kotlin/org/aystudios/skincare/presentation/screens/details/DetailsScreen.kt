@@ -1,15 +1,19 @@
 package org.aystudios.skincare.presentation.screens.details
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
@@ -17,198 +21,156 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import cafe.adriel.voyager.core.screen.Screen
-import org.aystudios.skincare.data.remote.dto.Content
+import org.aystudios.skincare.data.remote.dto.CartRequestDTO
+import org.aystudios.skincare.data.remote.dto.ProductItemDTO
 import org.aystudios.skincare.presentation.components.AppButtonComponent
 import org.aystudios.skincare.presentation.components.FavouriteItemToggleComponent
 import org.aystudios.skincare.presentation.components.QtyChipButtonComponent
-import org.aystudios.skincare.presentation.components.getAppNavigator
-import org.aystudios.skincare.presentation.navigation.AppBottomNavigation
-import org.aystudios.skincare.presentation.navigation.CartTab
-import org.aystudios.skincare.presentation.navigation.MainTabsScreenNavigator
-import org.aystudios.skincare.presentation.screens.cart.CartScreenNavigator
-import org.aystudios.skincare.ui.theme.AppBackgroundColor
-import org.aystudios.skincare.ui.theme.AppPrimaryColor
+import org.aystudios.skincare.presentation.screens.details.components.DetailsLabelComponent
+import org.aystudios.skincare.presentation.screens.details.components.DetailsTopAppBarComponent
+import org.aystudios.skincare.presentation.screens.details.components.PriceAndReviewComponent
+import org.aystudios.skincare.presentation.viewmodels.CartViewModel
+import org.aystudios.skincare.presentation.viewmodels.FavouritesViewModel
 import org.aystudios.skincare.ui.theme.AppScaffold
 import org.aystudios.skincare.ui.theme.AppSurfaceColor
-import org.aystudios.skincare.ui.theme.CircularButtonComponent
 import org.jetbrains.compose.resources.painterResource
-import org.jetbrains.compose.ui.tooling.preview.Preview
+import org.koin.compose.koinInject
 import skincare.composeapp.generated.resources.Res
-import skincare.composeapp.generated.resources.cart
 import skincare.composeapp.generated.resources.cleanser
 
-data class DetailsScreenNavigator(val item: Content) : Screen {
+data class DetailsScreenNavigator(
+    val item: ProductItemDTO,
+    val favouritesViewModel: FavouritesViewModel
+) : Screen {
     @Composable
     override fun Content() {
-        DetailsScreen(item)
+        DetailsScreen(item, favouritesViewModel)
     }
 
-}
 
-@Preview
-@Composable
-fun DetailsScreen(item: Content) {
+    @Composable
+    fun DetailsScreen(
+        item: ProductItemDTO,
+        favouritesViewModel: FavouritesViewModel,
+        cartViewModel: CartViewModel = koinInject()
+    ) {
 
-    AppScaffold(showTopBar = false, isZeroPaddingValues = true, enableManualScroll = false) {
+        val cartState by cartViewModel.cartState.collectAsStateWithLifecycle()
+        val scrollState = rememberScrollState()
+        var qty by remember { mutableIntStateOf(1) }
 
-        Column(modifier =Modifier.fillMaxSize(), verticalArrangement = Arrangement.SpaceBetween) {
-            Column() {
+        AppScaffold(showTopBar = false, isZeroPaddingValues = true) {
+            Column {
                 DetailsTopAppBarComponent()
-
                 Card(
-                    modifier = Modifier.weight(1f),
                     colors = CardDefaults.cardColors(AppSurfaceColor),
-                    shape = RoundedCornerShape(topStartPercent = 12, topEndPercent = 12)
+                    shape = RoundedCornerShape(topStart = 32.dp, topEnd = 32.dp)
                 ) {
-
-                    Column(
-                        modifier = Modifier.padding(16.dp),
-                        verticalArrangement = Arrangement.spacedBy(8.dp)
-                    ) {
-
-                        //Heading Image
-                        Image(
-                            painter = painterResource(Res.drawable.cleanser),
-                            contentDescription = null,
-                            contentScale = ContentScale.Crop,
-                            modifier = Modifier.fillMaxWidth().aspectRatio(4 / 3f)
-                                .clip(RoundedCornerShape(15))
-                        )
-
-                        //Product Title
-                        Row(
-                            horizontalArrangement = Arrangement.SpaceBetween,
-                            verticalAlignment = Alignment.CenterVertically
+                    Box(modifier = Modifier.fillMaxSize()) {
+                        Column(
+                            modifier = Modifier.verticalScroll(scrollState).padding(16.dp),
+                            verticalArrangement = Arrangement.spacedBy(8.dp)
                         ) {
+
+                            //Heading Image
+                            HeadingImageComponent(item, favouritesViewModel)
+
+
+                            //Labels
+                            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                                DetailsLabelComponent(item.category)
+                                DetailsLabelComponent(item.brand)
+                            }
+
+
+                            //Product Title
                             Text(
                                 item.name,
-                                modifier = Modifier.weight(1f),
                                 overflow = TextOverflow.Ellipsis,
                                 maxLines = 2,
                                 style = MaterialTheme.typography.headlineMedium.copy(fontWeight = FontWeight.W500)
                             )
-                            var isSelected by remember { mutableStateOf(false) }
-                            FavouriteItemToggleComponent(
-                                iconSize = 48.dp,
-                                isFavourite = isSelected,
-                                onClick = { isSelected = !isSelected })
+
+                            //Price & Review
+                            PriceAndReviewComponent(item.discountPrice, item.originalPrice)
+
+
+                            //Description
+                            Column {
+                                Text("Description", style = MaterialTheme.typography.titleMedium)
+                                Text(
+                                    item.description,
+                                    style = MaterialTheme.typography.bodyMedium
+                                )
+                            }
+
+                            //Spacer
+                            Spacer(Modifier.height(56.dp))
+
                         }
 
-                        //Price & Review
                         Row(
-                            modifier = Modifier.fillMaxWidth(),
-                            horizontalArrangement = Arrangement.SpaceBetween
+                            modifier = Modifier.padding(16.dp).align(Alignment.BottomCenter),
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.spacedBy(8.dp)
                         ) {
-                            Row(
-                                verticalAlignment = Alignment.CenterVertically,
-                                horizontalArrangement = Arrangement.spacedBy(4.dp)
+                            AppButtonComponent(
+                                modifier = Modifier.weight(1f),
+                                "Add To Cart",
+                                enabled = !cartState.isLoading
                             ) {
+                                val dto = CartRequestDTO(item.id, qty)
+                                cartViewModel.addToCart(dto)
 
-                                Text("From: ", style = MaterialTheme.typography.titleMedium)
-
-                                Text(
-                                    "₹${item.originalPrice}", style = MaterialTheme.typography.titleMedium.copy(
-                                        fontWeight = FontWeight.W500
-                                    )
-                                )
-
-                                Text(
-                                    "₹${item.discountPrice}",
-                                    style = MaterialTheme.typography.bodyMedium.copy(
-                                        textDecoration = TextDecoration.LineThrough,
-                                        fontWeight = FontWeight.W500
-                                    ),
-                                    color = AppPrimaryColor
-                                )
                             }
 
-                            Row(
-                                verticalAlignment = Alignment.CenterVertically,
-                                horizontalArrangement = Arrangement.spacedBy(4.dp)
-                            ) {
-                                Text("⭐", style = MaterialTheme.typography.titleMedium)
-                                Text("4.7/5", style = MaterialTheme.typography.titleMedium)
-                                Text(
-                                    "(2k+ Review)",
-                                    style = MaterialTheme.typography.titleSmall.copy(color = Color.LightGray)
-                                )
-
-                            }
-                        }
-
-                        //Description
-                        Column {
-                            Text("Description", style = MaterialTheme.typography.titleMedium)
-                            Text(
-                                item.description,
-                                style = MaterialTheme.typography.bodyMedium
+                            QtyChipButtonComponent(
+                                count = qty,
+                                onCountChange = { qty = it },
+                                modifier = Modifier.padding(8.dp),
+                                iconSize = 28.dp
                             )
                         }
-
-
                     }
+
                 }
+
+
             }
-
-            Row(
-                modifier = Modifier.padding(16.dp),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(8.dp)
-            ) {
-                AppButtonComponent(modifier = Modifier.weight(1f), "Add To Cart")
-
-                var qty by remember { mutableIntStateOf(1) }
-
-                QtyChipButtonComponent(
-                    count = qty,
-                    onCountChange = { qty = it },
-                    modifier = Modifier.padding(8.dp),
-                    iconSize = 28.dp
-                )
-            }
-
         }
     }
-}
 
-@Composable
-private fun DetailsTopAppBarComponent() {
+    @Composable
+    private fun HeadingImageComponent(product: ProductItemDTO, favouritesViewModel: FavouritesViewModel) {
 
-    val navigator = getAppNavigator()
+        Box {
+            Image(
+                painter = painterResource(Res.drawable.cleanser),
+                contentDescription = null,
+                contentScale = ContentScale.Crop,
+                modifier = Modifier.fillMaxWidth().aspectRatio(4 / 3f)
+                    .clip(RoundedCornerShape(32.dp))
+            )
 
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(8.dp),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
+            FavouriteItemToggleComponent(
+                modifier = Modifier.align(Alignment.TopEnd).padding(12.dp),
+                favouritesViewModel = favouritesViewModel,
+                product = product,
+                iconSize = 36.dp
+            )
+        }
 
-        CircularButtonComponent { navigator.pop() }
-
-        Text(
-            modifier = Modifier.weight(1f),
-            style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.W400),
-            textAlign = TextAlign.Center,
-            text = "Details"
-        )
-
-        CircularButtonComponent(
-            Res.drawable.cart,
-            onClick = { navigator.replaceAll(MainTabsScreenNavigator(CartTab)) })
     }
+
 }
