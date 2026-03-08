@@ -10,7 +10,8 @@ object AppLogger {
     val users = Logger.withTag("USERS")
 
     val cart = Logger.withTag("CART")
-
     val favourite = Logger.withTag("FAVOURITE")
+
+    val order = Logger.withTag("ORDER")
 
 }
