@@ -12,6 +12,7 @@ val AppSecondaryColor = Color(0xFFFF7961)    // Slightly lighter for secondary b
 val AppOnPrimaryColor = Color(0xFFFFFFFF)    // Text/icons on primary buttons
 val AppRedColor = Color(0xFFFF3B30)           // Price strikethrough / errors
 val AppYellowColor = Color(0xFFFFD700)        // Rating stars / highlights
+val AppGreenColor = Color(0xFF3A7D44)
 
 
 val AppColorScheme = lightColorScheme(

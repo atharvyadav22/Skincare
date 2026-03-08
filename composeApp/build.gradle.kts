@@ -63,6 +63,8 @@ kotlin {
 
             implementation("com.russhwolf:multiplatform-settings:1.3.0")
             implementation("co.touchlab:kermit:2.0.4")
+            implementation("io.github.alexzhirkevich:compottie:2.0.3")
+            implementation("io.github.alexzhirkevich:compottie-dot:2.0.3")
             implementation(libs.koin.core)
             implementation(libs.koin.compose)
             implementation(libs.koin.compose.viewmodel)

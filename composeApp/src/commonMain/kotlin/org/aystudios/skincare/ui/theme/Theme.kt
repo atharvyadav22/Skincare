@@ -10,9 +10,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -80,13 +78,13 @@ fun AppTopBar(title: String) {
     }
 }
 
+//TODO: Better Approach For this
 @Composable
 fun AppScaffold(
     isZeroPaddingValues: Boolean = false,
-    enableScroll: Boolean = true,
     showTopBar: Boolean = true,
     topBarTitle: String = "",
-    content: @Composable () -> Unit
+    content: @Composable (Modifier) -> Unit
 ) {
     val paddingValues = if (isZeroPaddingValues) {
         PaddingValues(0.dp)
@@ -105,13 +103,8 @@ fun AppScaffold(
                 AppTopBar(title = topBarTitle)
             }
 
-            val bodyModifier = Modifier.weight(1f).let {
-                if (enableScroll) it.verticalScroll(rememberScrollState())
-                else it
-            }
-
-            Box(modifier = bodyModifier) {
-                content()
+            Box(modifier = Modifier.weight(1f)) {
+                content(Modifier.fillMaxSize())
             }
 
 
