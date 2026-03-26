@@ -5,21 +5,25 @@ import org.aystudios.skincare.core.network.providesHttpClient
 import org.aystudios.skincare.data.remote.api.AuthApi
 import org.aystudios.skincare.data.remote.api.CartApi
 import org.aystudios.skincare.data.remote.api.FavouritesApi
+import org.aystudios.skincare.data.remote.api.OrderApi
 import org.aystudios.skincare.data.remote.api.ProductApi
 import org.aystudios.skincare.data.remote.api.UserApi
 import org.aystudios.skincare.data.repository.AuthRepositoryImpl
 import org.aystudios.skincare.data.repository.CartRepositoryImpl
 import org.aystudios.skincare.data.repository.FavouriteRepositoryImpl
+import org.aystudios.skincare.data.repository.OrderRepositoryImpl
 import org.aystudios.skincare.data.repository.ProductRepositoryImpl
 import org.aystudios.skincare.data.repository.UserRepositoryImpl
 import org.aystudios.skincare.domain.AuthRepository
 import org.aystudios.skincare.domain.CartRepository
 import org.aystudios.skincare.domain.FavouriteRepository
+import org.aystudios.skincare.domain.OrderRepository
 import org.aystudios.skincare.domain.ProductRepository
 import org.aystudios.skincare.domain.UserRepository
 import org.aystudios.skincare.presentation.viewmodels.CartViewModel
 import org.aystudios.skincare.presentation.viewmodels.FavouritesViewModel
 import org.aystudios.skincare.presentation.viewmodels.LoginViewModel
+import org.aystudios.skincare.presentation.viewmodels.OrderViewModel
 import org.aystudios.skincare.presentation.viewmodels.ProductViewModel
 import org.aystudios.skincare.presentation.viewmodels.UserViewModel
 import org.aystudios.skincare.utils.AppConfig
@@ -85,6 +89,10 @@ val networkModule = module {
         FavouritesApi(get(named("DEFAULT_CLIENT")), get(named("BASE_URL")))
     }
 
+    single {
+        OrderApi(get(named("DEFAULT_CLIENT")), get(named("BASE_URL")))
+    }
+
 }
 
 val dataModule = module {
@@ -96,6 +104,7 @@ val dataModule = module {
     single { UserRepositoryImpl(get()) } bind UserRepository::class
     single { CartRepositoryImpl(get()) } bind CartRepository::class
     single { FavouriteRepositoryImpl(get()) } bind FavouriteRepository::class
+    single { OrderRepositoryImpl(get()) } bind OrderRepository::class
 }
 
 val viewModelModule = module {
@@ -104,4 +113,5 @@ val viewModelModule = module {
     viewModel { UserViewModel(get()) }
     viewModel { CartViewModel(get()) }
     viewModel { FavouritesViewModel(get()) }
+    viewModel { OrderViewModel(get()) }
 }

@@ -19,6 +19,7 @@ object AppConfig {
     val UPDATE_USER_PROFILE = "/user"
     val CART = "/cart"
     val CHECKOUT = "/checkout"
+    val ORDER = "/order"
 
     val FAVOURITES = "/favourites"
 }

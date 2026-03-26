@@ -9,8 +9,6 @@ import androidx.compose.ui.Modifier
 import cafe.adriel.voyager.navigator.Navigator
 import cafe.adriel.voyager.transitions.SlideTransition
 import org.aystudios.skincare.presentation.screens.auth.LoginSignUpScreenNavigator
-import org.aystudios.skincare.presentation.screens.auth.component.LoginSignUpScreenComponent
-import org.aystudios.skincare.presentation.screens.checkout.CheckoutScreenNavigator
 
 @Composable
 fun App() {
