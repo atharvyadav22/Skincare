@@ -80,7 +80,7 @@ fun AppTopBar(title: String) {
 
 //TODO: Better Approach For this
 @Composable
-fun AppScaffold(
+fun  AppScaffold(
     isZeroPaddingValues: Boolean = false,
     showTopBar: Boolean = true,
     topBarTitle: String = "",

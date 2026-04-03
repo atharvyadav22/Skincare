@@ -12,7 +12,7 @@ suspend inline fun <T> safeApiCall(
         AppLogger.network.e(e) { "API error ${e.response.status.value}" }
         ApiResult.Error(e.response.status.description)
     } catch (e: Throwable) {
-        AppLogger.network.e(e) { "API error ${e.message}" }
+        AppLogger.network.e(e) { "Unknown Error ${e.message}" }
         ApiResult.Error(e.message ?: "Unknown Error")
     }
 }

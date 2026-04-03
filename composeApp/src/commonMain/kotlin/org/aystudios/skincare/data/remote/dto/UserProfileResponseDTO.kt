@@ -5,8 +5,8 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class UserProfileResponseDTO(
     val email: String,
-    val name: String? = null,
-    val phoneNo: String? = null,
-    val address: String? = null,
+    val name: String,
+    val phoneNo: String,
+    val address: String,
     val profilePicUrl: String? = null
 )

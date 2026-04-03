@@ -6,18 +6,19 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import org.aystudios.skincare.core.dispatchers.AppDispatcherProvider
 import org.aystudios.skincare.core.network.ApiResult
 import org.aystudios.skincare.data.remote.dto.UserProfileRequestDTO
 import org.aystudios.skincare.data.remote.dto.UserProfileResponseDTO
 import org.aystudios.skincare.domain.UserRepository
 
 data class UserProfileUiState(
-    val response: UserProfileResponseDTO = UserProfileResponseDTO(""),
+    val response: UserProfileResponseDTO? = null,
     val isLoading: Boolean = false,
     val error: String? = null
 )
 
-class UserViewModel(val repository: UserRepository) : ViewModel() {
+class UserViewModel(val repository: UserRepository, val dispatcherProvider: AppDispatcherProvider) : ViewModel() {
 
     private val _userProfile = MutableStateFlow(UserProfileUiState())
     val userProfile = _userProfile.asStateFlow()
@@ -27,7 +28,7 @@ class UserViewModel(val repository: UserRepository) : ViewModel() {
     }
 
     fun getUserProfile() {
-        viewModelScope.launch {
+        viewModelScope.launch(dispatcherProvider.main) {
             _userProfile.value =
                 UserProfileUiState(isLoading = true)
 
