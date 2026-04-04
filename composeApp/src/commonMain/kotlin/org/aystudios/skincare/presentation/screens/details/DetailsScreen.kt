@@ -75,7 +75,8 @@ data class DetailsScreenNavigator(
                 DetailsTopAppBarComponent()
                 Card(
                     colors = CardDefaults.cardColors(AppSurfaceColor),
-                    shape = RoundedCornerShape(topStart = 32.dp, topEnd = 32.dp)
+                    shape = RoundedCornerShape(topStart = 32.dp, topEnd = 32.dp),
+                    elevation = CardDefaults.cardElevation(2.dp)
                 ) {
                     Box(modifier = Modifier.fillMaxSize()) {
                         Column(

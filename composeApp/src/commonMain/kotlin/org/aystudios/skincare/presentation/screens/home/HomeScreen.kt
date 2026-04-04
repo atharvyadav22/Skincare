@@ -10,11 +10,16 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -23,16 +28,20 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import cafe.adriel.voyager.core.screen.Screen
+import org.aystudios.skincare.presentation.components.AppAuthorText
 import org.aystudios.skincare.presentation.components.ProductItemComponent
 import org.aystudios.skincare.presentation.screens.home.component.CategoriesComponent
 import org.aystudios.skincare.presentation.screens.home.component.HomeScreenTopBarComponent
 import org.aystudios.skincare.presentation.screens.home.component.HorizontalCarouselComponent
 import org.aystudios.skincare.presentation.screens.home.component.ProductCategoryComponent
 import org.aystudios.skincare.presentation.screens.home.component.SearchBarComponent
+import org.aystudios.skincare.presentation.viewmodels.FavouritesViewModel
 import org.aystudios.skincare.presentation.viewmodels.ProductViewModel
 import org.aystudios.skincare.ui.theme.AppScaffold
 import org.aystudios.skincare.utils.LocalBottomBarProgress
@@ -41,17 +50,19 @@ import org.koin.compose.viewmodel.koinViewModel
 object HomeScreenNavigator : Screen {
     @Composable
     override fun Content() {
-        HomeScreen()
+        val favouritesViewModel: FavouritesViewModel = koinViewModel()
+        HomeScreen(favouritesViewModel)
     }
 
 }
 
 @Composable
-fun HomeScreen() {
+fun HomeScreen(favouritesViewModel: FavouritesViewModel) {
 
     var searchText by rememberSaveable { mutableStateOf("") }
     val isSearching = searchText.isNotBlank()
 
+    // TODO: Move ViewModel to Tabs level for full access
     val productViewModel: ProductViewModel = koinViewModel()
 
     val categoriesState by productViewModel
@@ -62,22 +73,25 @@ fun HomeScreen() {
     val searchState by productViewModel.searchState.collectAsStateWithLifecycle()
 
 
-
-    AppScaffold(showTopBar = false, enableScroll = !isSearching) {
+    AppScaffold(showTopBar = false) {
 
         Column(
-            modifier = Modifier.fillMaxSize(),
+            modifier = Modifier.fillMaxSize().let{
+                if(searchQuery.isBlank()) it.verticalScroll(rememberScrollState())
+                else it
+            },
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
 
-            HomeScreenTopBarComponent()
+            HomeScreenTopBarComponent(favouritesViewModel)
 
             SearchBarComponent(searchText) {
                 searchText = it
                 productViewModel.onSearchQueryChange(it)
             }
 
-            if(searchQuery.isNotBlank()){
+            if (searchQuery.isNotBlank()) {
+                //TODO: FIX THIS
 //                SeeAllProductsScreen(state = searchState, isSearch = true) {}
 
                 val progressState = LocalBottomBarProgress.current
@@ -85,11 +99,12 @@ fun HomeScreen() {
 
                 LaunchedEffect(gridState) {
 
+                    //FIXME: Fix BottomBar Hiding issue
                     snapshotFlow {
                         gridState.firstVisibleItemScrollOffset
                     }.collect { offset ->
 
-                        // 🔥 Scroll range define karo
+                        //  Scroll range define karo
                         val maxScroll = 200f
 
                         val progress = (offset / maxScroll)
@@ -100,20 +115,27 @@ fun HomeScreen() {
                 }
 
 
-                when{
-                    searchState.isLoading -> {Text("Loading...")}
-                    searchState.error != null -> {Text(searchState.error ?: "Error")}
-                    searchState.items.isEmpty() -> {Text("No Products Found")}
+                when {
+                    searchState.isLoading -> {
+                        Text("Loading...")
+                    }
+
+                    searchState.error != null -> {
+                        Text(searchState.error ?: "Error")
+                    }
+
+                    searchState.items.isEmpty() -> {
+                        Text("No Products Found")
+                    }
+
                     else -> {
-
-
                         LazyVerticalGrid(
                             state = gridState,
                             modifier = Modifier.fillMaxSize(),
                             columns = GridCells.Adaptive(150.dp),
                         ) {
-                            items(searchState.items){
-                                ProductItemComponent(it)
+                            items(searchState.items) {
+                                ProductItemComponent(it, favouritesViewModel)
                             }
                         }
 
@@ -137,15 +159,17 @@ fun HomeScreen() {
                     Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
                         HorizontalCarouselComponent()
 
-                        when{
+                        when {
                             categoriesState.isLoading -> {
                                 Text("Loading...")
                             }
+
                             categoriesState.error != null -> {
                                 Text(categoriesState.error ?: "Error")
                             }
+
                             else -> {
-                                CategoriesComponent(categoriesState.items)
+                                CategoriesComponent(categoriesState.items, favouritesViewModel, productViewModel)
                             }
                         }
 
@@ -161,15 +185,21 @@ fun HomeScreen() {
                                     "Sunscreen",
                                     "Serum"
                                 ).forEach {
-                                    ProductCategoryComponent(it, productViewModel)
+                                    ProductCategoryComponent(
+                                        it,
+                                        productViewModel,
+                                        favouritesViewModel
+                                    )
                                 }
                             }
                         }
                     }
 
-                    Spacer(modifier = Modifier.height(54.dp))
                 }
             }
+
+            AppAuthorText()
+            Spacer(Modifier.height(54.dp))
         }
     }
 }

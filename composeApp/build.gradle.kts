@@ -12,6 +12,10 @@ plugins {
 
     alias(libs.plugins.kotlinxSerialization)
     alias(libs.plugins.buildkonfig)
+
+    // 1. Mokkery Compiler Plugin (for Mocking)
+    id("dev.mokkery") version "3.3.0"
+
 }
 
 kotlin {
@@ -61,21 +65,26 @@ kotlin {
             implementation(libs.kotlinx.coroutines.core)
             implementation(libs.ktor.client.auth)
 
-            implementation("com.russhwolf:multiplatform-settings:1.3.0")
-            implementation("co.touchlab:kermit:2.0.4")
-            implementation("io.github.alexzhirkevich:compottie:2.0.3")
-            implementation("io.github.alexzhirkevich:compottie-dot:2.0.3")
+            implementation(libs.multiplatform.settings)
+            implementation(libs.kermit)
+            implementation(libs.compottie)
+            implementation(libs.compottie.dot)
             implementation(libs.koin.core)
             implementation(libs.koin.compose)
             implementation(libs.koin.compose.viewmodel)
-
-
         }
         iosMain.dependencies {
             implementation(libs.ktor.client.darwin)
         }
         commonTest.dependencies {
-            implementation(libs.kotlin.test)
+            implementation(kotlin("test"))
+
+            // 2. Coroutines Control (gives you runTest and unconfined dispatchers)
+            implementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.10.2")
+
+
+            // 4. Flow Testing (The standard for testing Kotlin Flows)
+            implementation("app.cash.turbine:turbine:1.2.1")
         }
         jvmMain.dependencies {
             implementation(compose.desktop.currentOs)
@@ -139,5 +148,22 @@ buildkonfig {
     defaultConfigs {
         buildConfigField(FieldSpec.Type.STRING, "API_KEY", props.getProperty("API_KEY"))
     }
-
 }
+
+
+// 7. (Optional but recommended) Configure Kover to ignore generated code
+//kover {
+//    reports {
+//        filters {
+//            excludes {
+//                classes(
+//                    // Exclude generated DI code, auto-generated build configs, etc.
+//                    "*_Factory",
+//                    "**.*_Provide*Factory",
+//                    "**.*Builder",
+//                    "**.*Dagger*"
+//                )
+//            }
+//        }
+//    }
+//}
