@@ -1,48 +1,148 @@
-This is a Kotlin Multiplatform project targeting Android, iOS, Desktop (JVM).
+<div align="center">
 
-* [/composeApp](./composeApp/src) is for code that will be shared across your Compose Multiplatform applications.
-  It contains several subfolders:
-  - [commonMain](./composeApp/src/commonMain/kotlin) is for code that’s common for all targets.
-  - Other folders are for Kotlin code that will be compiled for only the platform indicated in the folder name.
-    For example, if you want to use Apple’s CoreCrypto for the iOS part of your Kotlin app,
-    the [iosMain](./composeApp/src/iosMain/kotlin) folder would be the right place for such calls.
-    Similarly, if you want to edit the Desktop (JVM) specific part, the [jvmMain](./composeApp/src/jvmMain/kotlin)
-    folder is the appropriate location.
+# 🌿 Glow — Skincare Commerce App
 
-* [/iosApp](./iosApp/iosApp) contains iOS applications. Even if you’re sharing your UI with Compose Multiplatform,
-  you need this entry point for your iOS app. This is also where you should add SwiftUI code for your project.
+### 🚀 Kotlin Multiplatform • Production Backend • Cross-Platform (Android · iOS · Desktop)
 
-### Build and Run Android Application
+> Full-stack KMP application handling real-world backend constraints (cold start, dynamic
+> environments, resilient networking)
 
-To build and run the development version of the Android app, use the run configuration from the run widget
-in your IDE’s toolbar or build it directly from the terminal:
-- on macOS/Linux
-  ```shell
-  ./gradlew :composeApp:assembleDebug
-  ```
-- on Windows
-  ```shell
-  .\gradlew.bat :composeApp:assembleDebug
-  ```
+[![Kotlin](https://img.shields.io/badge/Kotlin-7F52FF?style=flat-square\&logo=kotlin\&logoColor=white)]()
+[![KMP](https://img.shields.io/badge/Kotlin_Multiplatform-7F52FF?style=flat-square)]()
+[![Compose](https://img.shields.io/badge/Compose-4285F4?style=flat-square)]()
+[![Ktor](https://img.shields.io/badge/Ktor-0095D5?style=flat-square)]()
+[![Koin](https://img.shields.io/badge/Koin-DI-FF6B6B?style=flat-square)]()
+[![Testing](https://img.shields.io/badge/Testing-KMP-FF9800?style=flat-square)]()
+[![Spring Boot](https://img.shields.io/badge/Backend-SpringBoot-6DB33F?style=flat-square\&logo=springboot\&logoColor=white)]()
+[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-336791?style=flat-square\&logo=postgresql\&logoColor=white)]()
+[![Render](https://img.shields.io/badge/Deploy-Render-46E3B7?style=flat-square\&logo=render\&logoColor=black)]()
 
-### Build and Run Desktop (JVM) Application
-
-To build and run the development version of the desktop app, use the run configuration from the run widget
-in your IDE’s toolbar or run it directly from the terminal:
-- on macOS/Linux
-  ```shell
-  ./gradlew :composeApp:run
-  ```
-- on Windows
-  ```shell
-  .\gradlew.bat :composeApp:run
-  ```
-
-### Build and Run iOS Application
-
-To build and run the development version of the iOS app, use the run configuration from the run widget
-in your IDE’s toolbar or open the [/iosApp](./iosApp) directory in Xcode and run it from there.
+</div>
 
 ---
 
-Learn more about [Kotlin Multiplatform](https://www.jetbrains.com/help/kotlin-multiplatform-dev/get-started.html)…
+## 📱 Preview
+
+| SignUp                 | Home Tab             | Cart Tab             | Profile Tab             | Waking Server          |
+|------------------------|----------------------|----------------------|-------------------------|------------------------|
+| ![](assets/signup.png) | ![](assets/home.png) | ![](assets/cart.png) | ![](assets/profile.png) | ![](assets/waking.png) |
+
+| See All                  | Home Tab 2            | Favourites                 | Search                 |
+|--------------------------|-----------------------|----------------------------|------------------------|
+| ![](assets/view_all.png) | ![](assets/home2.png) | ![](assets/favourites.png) | ![](assets/search.png) |
+
+| Details                 | Checkout                 | Order Placing           | Payment Processing         |
+|-------------------------|--------------------------|-------------------------|----------------------------|
+| ![](assets/details.png) | ![](assets/checkout.png) | ![](assets/placing.png) | ![](assets/processing.png) |
+
+| Edit Profile                 | Track Orders Details  | Track Orders           | Payment Processing         |
+|------------------------------|-----------------------|------------------------|----------------------------|
+| ![](assets/edit_profile.png) | ![](assets/track.png) | ![](assets/track2.png) | ![](assets/processing.png) |
+
+---
+
+## 🎥 Demo
+
+<!-- Add GIF / video -->
+
+---
+
+## 🧠 Architecture
+
+![architecture.png](assets/architecture.png)
+---
+
+## ⚡ Highlights
+
+| Feature           | Description                                     |
+|-------------------|-------------------------------------------------|
+| 📱 KMP            | Shared business logic (Android · iOS · Desktop) |
+| 🎨 Compose        | Cross-platform UI (Compose Multiplatform)       |
+| 🔄 Dynamic API    | Render ↔ Local switch (no restart)              |
+| 🌍 Environment    | Runtime base URL switching                      |
+| ⏳ Cold Start UX   | Countdown · Retry · Fallback                    |
+| 🔐 Auth           | JWT (Access + Refresh flow)                     |
+| 🔁 Token Handling | Auto refresh + secure persistence               |
+| 🧠 State          | Loading → Success → Error (UiState)             |
+| 🌐 Networking     | Ktor + Safe API handling (ApiResult)            |
+| 📦 Architecture   | Clean (MVVM + Repository pattern)               |
+| 🪢 Endpoints      | 30+ integrated APIs                             |
+| 🧪 Testing        | KMP Unit (ViewModel + Repository)               |
+| ⚙️ Config         | BuildKonfig + Multiplatform Settings            |
+| 📡 Full Stack     | KMP + Spring Boot + PostgreSQL                  |
+
+---
+
+## 🛠️ Tech Stack
+
+| Layer            | Tech                                                                          |
+|------------------|-------------------------------------------------------------------------------|
+| KMP              | [Kotlin Multiplatform](https://kotlinlang.org/docs/multiplatform.html)        |
+| UI               | [Compose Multiplatform](https://www.jetbrains.com/lp/compose-multiplatform/)  |
+| Network          | [Ktor](https://ktor.io/)                                                      |
+| DI               | [Koin](https://insert-koin.io/)                                               |
+| Storage          | [Multiplatform Settings](https://github.com/russhwolf/multiplatform-settings) |
+| API Config       | [BuildKonfig](https://github.com/yshrsmz/BuildKonfig)                         |
+| Logging          | [Kermit](https://github.com/touchlab/Kermit)                                  |
+| Turbine Testing  | [Turbine](https://github.com/cashapp/turbine)                                 |
+| Mockkery Testing | [Mokkery](https://github.com/lupuuss/Mokkery)                                 |
+
+---
+
+## 🌐 Backend & API
+
+<div align="center">
+
+### 🔗 Live System
+
+| Service         | Link                                                      |
+|-----------------|-----------------------------------------------------------|
+| 🌐 Backend      | https://glow-backend-1.onrender.com                       |
+| 📄 Swagger Docs | https://glow-backend-1.onrender.com/swagger-ui/index.html |
+| ⚡ Wake Endpoint | https://glow-backend-1.onrender.com/api/auth/test         |
+
+</div>
+
+⚠️ First request may take ~60 seconds (Render cold start)
+
+---
+
+## 🚀 Usage
+
+### 🔹 Production (Render)
+
+1. Open app
+2. Wait ~60 sec OR hit `/api/auth/test`
+3. Continue normally
+
+---
+
+### 🔹 Local (Recommended for Testing)
+
+1. Connect **phone + laptop on same network**
+   👉 Best: use **mobile hotspot**
+
+2. Enter Yoir local IP in app:
+
+```text
+Eg- 192.168.57.3
+```
+
+3. App auto converts:
+
+```text
+http://192.168.57.3:8080/api
+```
+
+✔ No manual URL
+✔ No restart required
+
+---
+> ⚠️ Note  
+> Some parts of the project are not included in this repo.  
+> Building APK from source may fail — use the provided **release APK** instead.
+---
+
+<div align="center">
+<b>Made with ❤️ by AY彡STUDIOS</b>
+</div>
