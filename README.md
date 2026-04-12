@@ -23,21 +23,64 @@
 
 ## 📱 Preview
 
-| SignUp                 | Home Tab             | Cart Tab             | Profile Tab             | Waking Server          |
-|------------------------|----------------------|----------------------|-------------------------|------------------------|
-| ![](assets/signup.png) | ![](assets/home.png) | ![](assets/cart.png) | ![](assets/profile.png) | ![](assets/waking.png) |
+### 🔐 Authentication
 
-| See All                  | Home Tab 2            | Favourites                 | Search                 |
-|--------------------------|-----------------------|----------------------------|------------------------|
-| ![](assets/view_all.png) | ![](assets/home2.png) | ![](assets/favourites.png) | ![](assets/search.png) |
+<p align="center">
+  <img src="assets/signup.png" width="30%"/>
+</p>
 
-| Details                 | Checkout                 | Order Placing           | Payment Processing         |
-|-------------------------|--------------------------|-------------------------|----------------------------|
-| ![](assets/details.png) | ![](assets/checkout.png) | ![](assets/placing.png) | ![](assets/processing.png) |
+---
 
-| Edit Profile                 | Track Orders Details  | Track Orders           | Payment Processing         |
-|------------------------------|-----------------------|------------------------|----------------------------|
-| ![](assets/edit_profile.png) | ![](assets/track.png) | ![](assets/track2.png) | ![](assets/processing.png) |
+### 🏠 Home & Navigation
+
+<p align="center">
+  <img src="assets/home.png" width="30%"/>
+  <img src="assets/home2.png" width="30%"/>
+  <img src="assets/view_all.png" width="30%"/>
+</p>
+
+---
+
+### 🔍 Search & Favourites
+
+<p align="center">
+  <img src="assets/search.png" width="30%"/>
+  <img src="assets/favourites.png" width="30%"/>
+</p>
+
+---
+
+### 🛒 Shopping Flow
+
+<p align="center">
+  <img src="assets/details.png" width="30%"/>
+  <img src="assets/cart.png" width="30%"/>
+  <img src="assets.checkout.png" width="30%"/>
+</p>
+
+---
+
+### 💳 Order & Payment
+
+<p align="center">
+  <img src="assets/placing.png" width="30%"/>
+  <img src="assets/processing.png" width="30%"/>
+  <img src="assets/waking.png" width="30%"/>
+</p>
+
+---
+
+### 👤 Profile & Orders
+
+<p align="center">
+  <img src="assets/profile.png" width="30%"/>
+  <img src="assets/edit_profile.png" width="30%"/>
+  <img src="assets/track.png" width="30%"/>
+</p>
+
+<p align="center">
+  <img src="assets/track2.png" width="30%"/>
+</p>
 
 ---
 
