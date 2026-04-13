@@ -23,64 +23,30 @@
 
 ## 📱 Preview
 
-### 🔐 Authentication
+| SignUp                                     | Home Tab                                 | Cart Tab                                 |
+|--------------------------------------------|------------------------------------------|------------------------------------------|
+| <img src="assets/signup.png" width="250"/> | <img src="assets/home.png" width="250"/> | <img src="assets/cart.png" width="250"/> |
 
-<p align="center">
-  <img src="assets/signup.png" width="30%"/>
-</p>
+| Profile Tab                                 | Checkout                                     | See All                                      |
+|---------------------------------------------|----------------------------------------------|----------------------------------------------|
+| <img src="assets/profile.png" width="250"/> | <img src="assets/checkout.png" width="250"/> | <img src="assets/view_all.png" width="250"/> |
+|                                             |                                              |                                              |
 
----
+| Home Tab 2                                | Favourites                                     | Search                                     |
+|-------------------------------------------|------------------------------------------------|--------------------------------------------|
+| <img src="assets/home2.png" width="250"/> | <img src="assets/favourites.png" width="250"/> | <img src="assets/search.png" width="250"/> |
 
-### 🏠 Home & Navigation
+| Details                                     | Walking Server                             | Order Placing                               |
+|---------------------------------------------|--------------------------------------------|---------------------------------------------|
+| <img src="assets/details.png" width="250"/> | <img src="assets/waking.png" width="250"/> | <img src="assets/placing.png" width="250"/> |
 
-<p align="center">
-  <img src="assets/home.png" width="30%"/>
-  <img src="assets/home2.png" width="30%"/>
-  <img src="assets/view_all.png" width="30%"/>
-</p>
+| Payment Processing                             | Edit Profile                                     | Track Orders Details                      |
+|------------------------------------------------|--------------------------------------------------|-------------------------------------------|
+| <img src="assets/processing.png" width="250"/> | <img src="assets/edit_profile.png" width="250"/> | <img src="assets/track.png" width="250"/> |
 
----
-
-### 🔍 Search & Favourites
-
-<p align="center">
-  <img src="assets/search.png" width="30%"/>
-  <img src="assets/favourites.png" width="30%"/>
-</p>
-
----
-
-### 🛒 Shopping Flow
-
-<p align="center">
-  <img src="assets/details.png" width="30%"/>
-  <img src="assets/cart.png" width="30%"/>
-  <img src="assets.checkout.png" width="30%"/>
-</p>
-
----
-
-### 💳 Order & Payment
-
-<p align="center">
-  <img src="assets/placing.png" width="30%"/>
-  <img src="assets/processing.png" width="30%"/>
-  <img src="assets/waking.png" width="30%"/>
-</p>
-
----
-
-### 👤 Profile & Orders
-
-<p align="center">
-  <img src="assets/profile.png" width="30%"/>
-  <img src="assets/edit_profile.png" width="30%"/>
-  <img src="assets/track.png" width="30%"/>
-</p>
-
-<p align="center">
-  <img src="assets/track2.png" width="30%"/>
-</p>
+| Track Orders                               | Payment Processing                             |
+|--------------------------------------------|------------------------------------------------|
+| <img src="assets/track2.png" width="250"/> | <img src="assets/processing.png" width="250"/> |
 
 ---
 
