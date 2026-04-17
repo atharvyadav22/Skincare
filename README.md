@@ -52,7 +52,7 @@
 
 ## 🎥 Demo
 
-<!-- Add GIF / video -->
+![demo.gif](assets/demo.gif)
 
 ---
 
