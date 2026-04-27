@@ -9,7 +9,7 @@ object AppConfig {
     // TODO: Optimize Endpoints
     // Use BuildKonfig library or paste your API key here.
     val BASE_URL = BuildKonfig.API_KEY
-    const val LOCAL_BASE_URL = "http://192.168.31.57:8080/api"
+    val TEST = "/auth/test"
     val LOGIN = "/auth/login"
     val REFRESH = "/auth/refresh"
     val ALL_CATEGORIES = "/products/categories"
@@ -22,9 +22,4 @@ object AppConfig {
     val ORDER = "/order"
 
     val FAVOURITES = "/favourites"
-}
-@Composable
-fun customViewModel(): FavouritesViewModel {
-    val customViewModel : FavouritesViewModel = koinViewModel()
-    return customViewModel
 }
