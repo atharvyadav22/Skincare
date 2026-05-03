@@ -1,5 +1,7 @@
 package org.aystudios.skincare.di
 
+import org.aystudios.skincare.core.dispatcher.DefaultDispatcherProvider
+import org.aystudios.skincare.core.dispatcher.AppDispatcherProvider
 import org.aystudios.skincare.core.network.providesAuthHttpClient
 import org.aystudios.skincare.core.network.providesHttpClient
 import org.aystudios.skincare.data.remote.api.AuthApi
@@ -7,26 +9,30 @@ import org.aystudios.skincare.data.remote.api.CartApi
 import org.aystudios.skincare.data.remote.api.FavouritesApi
 import org.aystudios.skincare.data.remote.api.OrderApi
 import org.aystudios.skincare.data.remote.api.ProductApi
+import org.aystudios.skincare.data.remote.api.StartupApi
 import org.aystudios.skincare.data.remote.api.UserApi
 import org.aystudios.skincare.data.repository.AuthRepositoryImpl
 import org.aystudios.skincare.data.repository.CartRepositoryImpl
 import org.aystudios.skincare.data.repository.FavouriteRepositoryImpl
 import org.aystudios.skincare.data.repository.OrderRepositoryImpl
 import org.aystudios.skincare.data.repository.ProductRepositoryImpl
+import org.aystudios.skincare.data.repository.StartupRepositoryImpl
 import org.aystudios.skincare.data.repository.UserRepositoryImpl
 import org.aystudios.skincare.domain.AuthRepository
 import org.aystudios.skincare.domain.CartRepository
 import org.aystudios.skincare.domain.FavouriteRepository
 import org.aystudios.skincare.domain.OrderRepository
 import org.aystudios.skincare.domain.ProductRepository
+import org.aystudios.skincare.domain.StartupRepository
 import org.aystudios.skincare.domain.UserRepository
 import org.aystudios.skincare.presentation.viewmodels.CartViewModel
 import org.aystudios.skincare.presentation.viewmodels.FavouritesViewModel
 import org.aystudios.skincare.presentation.viewmodels.LoginViewModel
 import org.aystudios.skincare.presentation.viewmodels.OrderViewModel
 import org.aystudios.skincare.presentation.viewmodels.ProductViewModel
+import org.aystudios.skincare.presentation.viewmodels.StartupViewModel
 import org.aystudios.skincare.presentation.viewmodels.UserViewModel
-import org.aystudios.skincare.utils.AppConfig
+import org.aystudios.skincare.utils.BaseUrlRefresher
 import org.aystudios.skincare.utils.TokenRefresher
 import org.aystudios.skincare.utils.TokenStorage
 import org.koin.core.module.Module
@@ -58,6 +64,11 @@ import org.koin.dsl.module
 
 expect val platformSettingsModule: Module
 
+val coroutineModule = module {
+
+    single<AppDispatcherProvider> { DefaultDispatcherProvider() }
+}
+
 val networkModule = module {
 
     single(named("AUTH_CLIENT")) {
@@ -68,29 +79,31 @@ val networkModule = module {
         providesHttpClient(get(), get())
     }
 
-    single(named("BASE_URL")) {
-        AppConfig.BASE_URL
+    single() { BaseUrlRefresher(get()) }
+
+    single {
+        StartupApi(get(named("DEFAULT_CLIENT")), get())
     }
 
     single {
-        AuthApi(get(named("AUTH_CLIENT")),get(named("BASE_URL")))
+        AuthApi(get(named("AUTH_CLIENT")),get())
     }
 
     single {
-        ProductApi(get(named("DEFAULT_CLIENT")),get(named("BASE_URL")))
+        ProductApi(get(named("DEFAULT_CLIENT")),get())
     }
     single {
-        UserApi(get(named("DEFAULT_CLIENT")), get(named("BASE_URL")))
+        UserApi(get(named("DEFAULT_CLIENT")), get())
     }
     single {
-        CartApi(get(named("DEFAULT_CLIENT")), get(named("BASE_URL")))
+        CartApi(get(named("DEFAULT_CLIENT")), get())
     }
     single {
-        FavouritesApi(get(named("DEFAULT_CLIENT")), get(named("BASE_URL")))
+        FavouritesApi(get(named("DEFAULT_CLIENT")), get())
     }
 
     single {
-        OrderApi(get(named("DEFAULT_CLIENT")), get(named("BASE_URL")))
+        OrderApi(get(named("DEFAULT_CLIENT")), get())
     }
 
 }
@@ -99,6 +112,7 @@ val dataModule = module {
     single { TokenStorage(get()) }
     single { TokenRefresher(get(), get()) }
 
+    single { StartupRepositoryImpl(get()) } bind StartupRepository::class
     single { AuthRepositoryImpl(get(),get()) } bind AuthRepository::class
     single { ProductRepositoryImpl(get()) } bind ProductRepository::class
     single { UserRepositoryImpl(get()) } bind UserRepository::class
@@ -108,9 +122,10 @@ val dataModule = module {
 }
 
 val viewModelModule = module {
-    viewModel { LoginViewModel(get()) }
+    viewModel { StartupViewModel(get()) }
+    viewModel { LoginViewModel(get(), get()) }
     viewModel { ProductViewModel(get()) }
-    viewModel { UserViewModel(get()) }
+    viewModel { UserViewModel(get(), get()) }
     viewModel { CartViewModel(get()) }
     viewModel { FavouritesViewModel(get()) }
     viewModel { OrderViewModel(get()) }
