@@ -13,7 +13,6 @@ plugins {
     alias(libs.plugins.kotlinxSerialization)
     alias(libs.plugins.buildkonfig)
 
-    // 1. Mokkery Compiler Plugin (for Mocking)
     id("dev.mokkery") version "3.3.0"
 
 }
@@ -78,12 +77,7 @@ kotlin {
         }
         commonTest.dependencies {
             implementation(kotlin("test"))
-
-            // 2. Coroutines Control (gives you runTest and unconfined dispatchers)
             implementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.10.2")
-
-
-            // 4. Flow Testing (The standard for testing Kotlin Flows)
             implementation("app.cash.turbine:turbine:1.2.1")
         }
         jvmMain.dependencies {

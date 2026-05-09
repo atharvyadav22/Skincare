@@ -58,7 +58,7 @@ fun EditProfileScreen(viewModel: UserViewModel) {
 
     AppScaffold(topBarTitle = "Edit Profile", isZeroPaddingValues = true) {
         Box(
-            modifier = Modifier.fillMaxSize().background(AppPrimaryColor)
+            modifier = it.background(AppPrimaryColor)
         ) {
 
             val backgroundHeight = 180.dp
@@ -69,7 +69,7 @@ fun EditProfileScreen(viewModel: UserViewModel) {
 
             Card(
                 modifier = Modifier
-                    .fillMaxWidth()
+                    .fillMaxSize()
                     .offset(y = (backgroundHeight - profileRadius)),
                 colors = CardDefaults.cardColors(AppSurfaceColor),
                 shape = RoundedCornerShape(topStart = cardCorner, topEnd = cardCorner)
@@ -95,7 +95,6 @@ fun EditProfileScreen(viewModel: UserViewModel) {
                 )
 
             }
-            AppTopBar(title = "")
 
         }
 
