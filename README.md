@@ -52,7 +52,7 @@
 
 ## 🎥 Demo
 
-![demo.gif](assets/demo.gif)
+![demo.gif](assets/demo.gif) 
 
 ---
 
@@ -146,6 +146,11 @@ http://192.168.57.3:8080/api
 ✔ No manual URL
 ✔ No restart required
 
+---
+## 🔗 Full Stack
+
+* 📱 KMP App: This repository
+* ⚙️ Backend: https://github.com/atharvyadav22/Glow-Backend
 ---
 > ⚠️ Note  
 > Some parts of the project are not included in this repo.  
