@@ -124,7 +124,7 @@ val dataModule = module {
 val viewModelModule = module {
     viewModel { StartupViewModel(get()) }
     viewModel { LoginViewModel(get(), get()) }
-    viewModel { ProductViewModel(get(), get()) }
+    viewModel { ProductViewModel(get()) }
     viewModel { UserViewModel(get(), get()) }
     viewModel { CartViewModel(get()) }
     viewModel { FavouritesViewModel(get()) }
