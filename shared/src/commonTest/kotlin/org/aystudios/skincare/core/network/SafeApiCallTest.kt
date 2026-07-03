@@ -2,29 +2,31 @@ package org.aystudios.skincare.core.network
 
 import kotlinx.coroutines.test.runTest
 import org.aystudios.skincare.data.remote.dto.UserProfileResponseDTO
-import org.junit.Test
+import kotlin.test.Test
+import kotlin.test.assertEquals
+import kotlin.test.assertTrue
 
-//class SafeApiCallTest {
-//
-//    @Test
-//    fun safeApiCall_whenSuccess_returnsSuccess() = runTest {
-//        val mockResponse = UserProfileResponseDTO("dev.atharvyadav@gmail.com", "Atharv Yadav", "123456789", "Delusional World")
-//        val result = safeApiCall { mockResponse }
-//
-//        assertTrue(result is ApiResult.Success)
-//        val successResult = result.data
-//        assertEquals(mockResponse, successResult)
-//    }
-//
-//    @Test
-//    fun safeApiCall_whenGenericExceptionThrows_returnsError() = runTest {
-//        val result = safeApiCall { throw Exception("Network Failure") }
-//
-//        assertTrue(result is ApiResult.Error)
-//
-//        val error = result.message
-//        assertEquals("Network Failure", error)
-//
-//    }
-//
-//}
+class SafeApiCallTest {
+
+    @Test
+    fun safeApiCall_whenSuccess_returnsSuccess() = runTest {
+        val mockResponse = UserProfileResponseDTO("dev.atharvyadav@gmail.com", "Atharv Yadav", "123456789", "Delusional World")
+        val result = safeApiCall { mockResponse }
+
+        assertTrue(result is ApiResult.Success)
+        val successResult = (result as ApiResult.Success).data
+        assertEquals(mockResponse, successResult)
+    }
+
+    @Test
+    fun safeApiCall_whenGenericExceptionThrows_returnsError() = runTest {
+        val result = safeApiCall { throw Exception("Network Failure") }
+
+        assertTrue(result is ApiResult.Error)
+
+        val error = (result as ApiResult.Error).message
+        assertEquals("Network Failure", error)
+
+    }
+
+}
