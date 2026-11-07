@@ -167,7 +167,14 @@ private fun Int.toFormattedTimer(): String {
 }
 
 private fun fixUrl(url: String): String {
-    return "http://$url:8080/api"
+    val trimmed = url.trim()
+    if (trimmed.startsWith("http://") || trimmed.startsWith("https://")) {
+        return trimmed
+    }
+    if (trimmed.contains(":")) {
+        return "http://$trimmed"
+    }
+    return "http://$trimmed:8080/api"
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
